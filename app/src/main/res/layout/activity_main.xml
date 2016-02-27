@@ -14,7 +14,14 @@
         android:layout_height="wrap_content"
         android:text="@string/testString"
         android:id="@+id/button"
-        android:onClick="onClick"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:onClick="onClick" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/testString2"
+        android:id="@+id/button2"
+        android:layout_centerVertical="true"
+        android:layout_alignParentStart="true"
+        android:onClick="resetClick" />
 </RelativeLayout>

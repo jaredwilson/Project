@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Project</string>
     <string name="testString">Commence enumeration!</string>
+    <string name="testString2">Reset</string>
 </resources>

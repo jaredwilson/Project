@@ -20,4 +20,10 @@ public class MainActivity extends AppCompatActivity {
     Button button = (Button) findViewById(R.id.button);
         button.setText("" + counter);
     }
+
+    public void resetClick (View v) {
+        counter = 0;
+        Button button = (Button)  findViewById(R.id.button);
+        button.setText("Back to nothing");
+    }
 }
