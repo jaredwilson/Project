@@ -18,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
     public void onClick (View v) {
         counter++;
     Button button = (Button) findViewById(R.id.button);
-        button.setText("" + counter);
+        button.setText("" + counter + " Points");
     }
 
     public void resetClick (View v) {
