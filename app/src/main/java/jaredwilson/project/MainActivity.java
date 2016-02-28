@@ -24,6 +24,6 @@ public class MainActivity extends AppCompatActivity {
     public void resetClick (View v) {
         counter = 0;
         Button button = (Button)  findViewById(R.id.button);
-        button.setText("Back to nothing");
+        button.setText("Back to nothing...");
     }
 }
