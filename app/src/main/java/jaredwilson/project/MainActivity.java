@@ -106,7 +106,7 @@ public class MainActivity extends AppCompatActivity {
     public void play_actions(View view) {
         Button mPlayer = (Button)view;
 
-        if(isPlaying) {
+        if(!isPlaying) {
             startPlaying();
             mPlayer.setText("Stop Playing");
         } else {
@@ -127,6 +127,5 @@ public class MainActivity extends AppCompatActivity {
     private void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
-
     }
 }
