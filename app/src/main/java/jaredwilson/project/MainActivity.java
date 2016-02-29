@@ -72,7 +72,7 @@ public class MainActivity extends AppCompatActivity {
     public void record_actions(View view) {
         Button mRecorder = (Button)view;
 
-        if(isRecording) {
+        if(!isRecording) {
             startRecording();
             mRecorder.setText("Stop Recording");
         } else {
@@ -124,6 +124,8 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e){ e.printStackTrace(); }
     }
     private void stopPlaying() {
+        mPlayer.release();
+        mPlayer = null;
 
     }
 }
