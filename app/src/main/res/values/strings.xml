@@ -5,4 +5,5 @@
     <string name="recordButton">Record Button</string>
     <string name="playButton">Play Button</string>
     <string name="playTest">play</string>
+    <string name="stopButton">Stop</string>
 </resources>

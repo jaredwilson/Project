@@ -36,6 +36,14 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {e.printStackTrace();}
     }
 
+    public void stopIt (View v) {
+        jamsesh.stop();
+        playpress = true;
+        jamsesh.prepareAsync();
+        Button button = (Button) findViewById(R.id.play);
+        button.setText("play");
+    }
+
     public void do_things(View vee) {
         Button just_pressed = (Button)vee;
         /*switch (just_pressed.getId()) {

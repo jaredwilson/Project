@@ -37,4 +37,13 @@
         android:layout_alignBottom="@+id/record_button"
         android:layout_alignParentEnd="true"
         android:onClick="play_actions" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/stopButton"
+        android:id="@+id/button"
+        android:layout_alignParentTop="true"
+        android:layout_alignEnd="@+id/play_button"
+        android:onClick="stopIt" />
 </RelativeLayout>
