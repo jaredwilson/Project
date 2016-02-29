@@ -39,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     public void stopIt (View v) {
         jamsesh.stop();
         playpress = true;
+        // use the method onPreparedListener to check if file is prepared.
         jamsesh.prepareAsync();
         Button button = (Button) findViewById(R.id.play);
         button.setText("play");
