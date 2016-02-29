@@ -32,9 +32,18 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="New Button"
+        android:text="@string/recordButton"
         android:id="@+id/record_button"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:onClick="do_things"/>
+        android:onClick="record_actions"/>
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/playButton"
+        android:id="@+id/play_button"
+        android:layout_alignBottom="@+id/record_button"
+        android:layout_alignParentEnd="true"
+        android:onClick="play_actions" />
 </RelativeLayout>
