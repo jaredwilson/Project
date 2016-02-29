@@ -1,6 +1,8 @@
 package jaredwilson.project;
 
+import android.content.Context;
 import android.media.MediaPlayer;
+import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -8,6 +10,7 @@ import android.widget.Button;
 
 public class MainActivity extends AppCompatActivity {
 
+    MediaRecorder rRecorder;
     MediaPlayer jamsesh;
     public boolean playpress;
     int counter;
@@ -27,8 +30,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void onClick (View v) {
         counter++;
-    Button button = (Button) findViewById(R.id.button);
+        Button button = (Button) findViewById(R.id.button);
         button.setText("" + counter + " Points");
+
     }
 
     public void resetClick (View v) {
@@ -59,8 +63,7 @@ public class MainActivity extends AppCompatActivity {
                     playpress = true;
                 break;
         }*/
-
-
     }
+
 
 }
