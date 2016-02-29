@@ -4,4 +4,5 @@
     <string name="testString2">Reset</string>
     <string name="recordButton">Record Button</string>
     <string name="playButton">Play Button</string>
+    <string name="playTest">play</string>
 </resources>

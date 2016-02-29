@@ -36,18 +36,6 @@ public class MainActivity extends AppCompatActivity {
         } catch (Exception e) {e.printStackTrace();}
     }
 
-    public void onClick (View v) {
-        counter++;
-        Button button = (Button) findViewById(R.id.button);
-        button.setText("" + counter + " Points");
-
-    }
-
-    public void resetClick (View v) {
-        counter = 0;
-        Button button = (Button)  findViewById(R.id.button);
-        button.setText("Back to nothing...");
-    }
     public void do_things(View vee) {
         Button just_pressed = (Button)vee;
         /*switch (just_pressed.getId()) {
