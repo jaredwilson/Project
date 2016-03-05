@@ -23,6 +23,8 @@ public class MainActivity extends AppCompatActivity {
     File fileName;
     List<File> files;
     ArrayAdapter<File> fileAdapter;
+    List<String> testList;
+    ArrayAdapter <String> testString;
     public boolean playpress;
     public boolean isRecording;
     public boolean isPlaying;
@@ -35,8 +37,15 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
-        fileName = new File(this.getFilesDir(), "Most Recent");
-        fileAdapter = new ArrayAdapter<File>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, files);
+        //fileName = new File(this.getFilesDir(), "Most Recent");
+        //fileAdapter = new ArrayAdapter<File>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, files);
+
+        testList = new ArrayList<String>();
+        for (int i = 0; i < 10; i++)
+        {
+            testList.add("" + i);
+        }
+        testString = new ArrayAdapter<String>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, testList);
         files = getListFiles(this.getFilesDir());
 
         try {
