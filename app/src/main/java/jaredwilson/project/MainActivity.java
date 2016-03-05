@@ -7,6 +7,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import java.io.File;
 import java.io.IOException;
@@ -29,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
-        fileName = new File(this.getFilesDir(), "Most Recent");
 
         try {
             jamsesh.prepare();
@@ -84,10 +84,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startRecording() {
+        EditText edt = (EditText)findViewById(R.id.fileNamer);
+        String filePath = this.getFilesDir().getPath() + edt.getText().toString();
         mRecorder = new MediaRecorder();
         mRecorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         mRecorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        mRecorder.setOutputFile(fileName.getPath());
+        mRecorder.setOutputFile(filePath);
         mRecorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
@@ -117,9 +119,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void startPlaying() {
+        EditText edt = (EditText)findViewById(R.id.fileNamer);
+        String filePath = this.getFilesDir().getPath() + edt.getText().toString();
         mPlayer = new MediaPlayer();
         try {
-            mPlayer.setDataSource(fileName.getPath());
+            mPlayer.setDataSource(filePath);
             mPlayer.prepare();
             mPlayer.start();
         } catch (Exception e){ e.printStackTrace(); }

@@ -46,4 +46,13 @@
         android:layout_alignParentTop="true"
         android:layout_alignEnd="@+id/play_button"
         android:onClick="stopIt" />
+
+    <EditText
+        android:layout_width="150dp"
+        android:layout_height="wrap_content"
+        android:id="@+id/fileNamer"
+        android:hint="@string/File_Name_hint"
+        android:layout_above="@+id/record_button"
+        android:layout_centerHorizontal="true" />
+
 </RelativeLayout>
