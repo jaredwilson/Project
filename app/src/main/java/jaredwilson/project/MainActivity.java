@@ -6,11 +6,14 @@ import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -18,6 +21,8 @@ public class MainActivity extends AppCompatActivity {
     MediaPlayer mPlayer;
     MediaPlayer jamsesh;
     File fileName;
+    List<File> files;
+    ArrayAdapter<File> fileAdapter;
     public boolean playpress;
     public boolean isRecording;
     public boolean isPlaying;
@@ -30,10 +35,30 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
+        fileName = new File(this.getFilesDir(), "Most Recent");
+        fileAdapter = new ArrayAdapter<File>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, files);
+        files = getListFiles(this.getFilesDir());
 
         try {
             jamsesh.prepare();
         } catch (Exception e) {e.printStackTrace();}
+    }
+
+
+
+    private List<File> getListFiles(File parentDir) {
+        ArrayList<File> inFiles = new ArrayList<File>();
+        File[] files = parentDir.listFiles();
+        for (File file : files) {
+            if (file.isDirectory()) {
+                inFiles.addAll(getListFiles(file));
+            } else {
+                if(true){//file.getName().endsWith(".mp3")){
+                    inFiles.add(file);
+                }
+            }
+        }
+        return inFiles;
     }
 
     public void stopIt (View v) {
@@ -43,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         jamsesh.prepareAsync();
         Button button = (Button) findViewById(R.id.play);
         button.setText("play");
+
+        fileAdapter.notifyDataSetChanged();
     }
 
     public void do_things(View vee) {
