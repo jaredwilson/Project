@@ -9,10 +9,12 @@ import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -20,15 +22,16 @@ public class MainActivity extends AppCompatActivity {
     MediaRecorder mRecorder;
     MediaPlayer mPlayer;
     MediaPlayer jamsesh;
-    File fileName;
-    List<File> files;
-    ArrayAdapter<File> fileAdapter;
+    List<String> files;
+    ArrayAdapter<String> fileAdapter;
     List<String> testList;
     ArrayAdapter <String> testString;
     public boolean playpress;
     public boolean isRecording;
     public boolean isPlaying;
     int counter;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -37,16 +40,15 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
-        //fileName = new File(this.getFilesDir(), "Most Recent");
-        //fileAdapter = new ArrayAdapter<File>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, files);
+        if(this.getFilesDir().length() != 0){
+            files.addAll(Arrays.asList(this.getFilesDir().list())); }
 
-        testList = new ArrayList<String>();
-        for (int i = 0; i < 10; i++)
-        {
-            testList.add("" + i);
-        }
-        testString = new ArrayAdapter<String>(getBaseContext(), R.layout.activity_main, R.id.listViewSongs, testList);
-        files = getListFiles(this.getFilesDir());
+        fileAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, files);
+
+        ListView lv = (ListView)findViewById(R.id.listViewSongs);
+
+        lv.setAdapter(fileAdapter);
+
 
         try {
             jamsesh.prepare();
