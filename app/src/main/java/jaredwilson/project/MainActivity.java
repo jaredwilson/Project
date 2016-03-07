@@ -22,7 +22,7 @@ public class MainActivity extends AppCompatActivity {
     MediaRecorder mRecorder;
     MediaPlayer mPlayer;
     MediaPlayer jamsesh;
-    List<String> files;
+    List<String> listOfFileNames;
     ArrayAdapter<String> fileAdapter;
     List<String> testList;
     ArrayAdapter <String> testString;
@@ -40,10 +40,11 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
+        listOfFileNames = new ArrayList<String>();
         if(this.getFilesDir().length() != 0){
-            files.addAll(Arrays.asList(this.getFilesDir().list())); }
+            listOfFileNames.addAll(Arrays.asList(this.getFilesDir().list())); }
 
-        fileAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, files);
+        fileAdapter = new ArrayAdapter<String>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
 
         ListView lv = (ListView)findViewById(R.id.listViewSongs);
 
@@ -57,16 +58,16 @@ public class MainActivity extends AppCompatActivity {
 
 
 
-    private List<File> getListFiles(File parentDir) {
-        ArrayList<File> inFiles = new ArrayList<File>();
+    private List<String> getListFiles(File parentDir) {
+        ArrayList<String> inFiles = new ArrayList<String>();
         File[] files = parentDir.listFiles();
         for (File file : files) {
             if (file.isDirectory()) {
-                inFiles.addAll(getListFiles(file));
+                inFiles.addAll(Arrays.asList(this.getFilesDir().list()));
             } else {
-                if(true){//file.getName().endsWith(".mp3")){
-                    inFiles.add(file);
-                }
+               // if(true){//file.getName().endsWith(".mp3")){
+                    inFiles.add(file.getName());
+               // }
             }
         }
         return inFiles;
