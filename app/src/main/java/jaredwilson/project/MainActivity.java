@@ -116,11 +116,14 @@ public class MainActivity extends AppCompatActivity {
     public void record_actions(View view) {
         Button mRecorder = (Button)view;
 
+        EditText name = (EditText)findViewById(R.id.fileNamer);
         if(!isRecording) {
             startRecording();
+            Log.i("Record_Actions", "File STARTed recording under the name \"" + name.getText().toString() + ".\"");
             mRecorder.setText("Stop Recording");
         } else {
             stopRecording();
+            Log.i("Record_Actions", "File STOPPed recording under the name \"" + name.getText().toString() + ".\"");
             mRecorder.setText("Start Recording");
         }
         isRecording = !isRecording;
@@ -169,7 +172,10 @@ public class MainActivity extends AppCompatActivity {
             mPlayer.setDataSource(filePath);
             mPlayer.prepare();
             mPlayer.start();
-        } catch (Exception e){ e.printStackTrace(); }
+        } catch (IOException e) {
+            Log.e("SongError", "The media player was not able to be played.");
+            e.printStackTrace();
+        }
     }
     private void stopPlaying() {
         mPlayer.release();
