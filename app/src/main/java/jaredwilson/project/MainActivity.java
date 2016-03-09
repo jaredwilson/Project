@@ -5,6 +5,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -49,11 +50,14 @@ public class MainActivity extends AppCompatActivity {
         ListView lv = (ListView)findViewById(R.id.listViewSongs);
 
         lv.setAdapter(fileAdapter);
+        Log.i("OnCreate", "This has been a successful onCreate!");
 
 
         try {
             jamsesh.prepare();
-        } catch (Exception e) {e.printStackTrace();}
+        } catch (Exception e) {
+            Log.e("SongError", "The jamsesh.prepare function failed!");
+            e.printStackTrace();}
     }
 
 
@@ -170,5 +174,6 @@ public class MainActivity extends AppCompatActivity {
     private void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
+        Log.i("stopped", "The player has successfully been told to stop playing!");
     }
 }
