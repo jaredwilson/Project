@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
      * Also is like constructor, instantiating variables
      */
     protected void onCreate(Bundle savedInstanceState) {
+        System.out.println("Enter ONCREATE");
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         counter = 0;
@@ -52,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
         listOfFileNames = new ArrayList<>();
         if(this.getFilesDir().length() != 0){
+            System.out.println("adding files");
             listOfFileNames.addAll(Arrays.asList(this.getFilesDir().list())); }
 
         fileAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
@@ -63,10 +65,14 @@ public class MainActivity extends AppCompatActivity {
 
 
         try {
+            System.out.println("prepping JAMSESH");
             jamsesh.prepare();
         } catch (Exception e) {
+            System.out.println("songErr 1");
             Log.e("SongError", "The jamsesh.prepare function failed!");
             e.printStackTrace();}
+
+        System.out.println("Exit ONCREATE");
     }
 
 
@@ -76,18 +82,32 @@ public class MainActivity extends AppCompatActivity {
      * @return list of files
      */
     private List<String> getListFiles(File parentDir) {
+        System.out.println("\tEnter GETLISTFILES");
         ArrayList<String> inFiles = new ArrayList<>();
         File[] files = parentDir.listFiles();
+
+
         for (File file : files) {
+            System.out.println("\tfile \'" + file.getName() + "\' from FILES[]...");
             if (file.isDirectory()) {
+                System.out.println("\t\'" + file.getName() + "\'.isDirectory() = true");
+
+                // QUESTION: do we want to call "addAll()" from within a forEach loop?
+
                 inFiles.addAll(Arrays.asList(this.getFilesDir().list()));
+                System.out.println("ArrayList INFILES:\n" + inFiles);
             } else {
                // if(true){//file.getName().endsWith(".mp3")){
+                System.out.println("\t\'" + file.getName() + "\'.isDirectory() = false");
                     inFiles.add(file.getName());
+                System.out.println("ArrayList INFILES:\n" + inFiles);
                // }
             }
         }
+        System.out.println("\tinFiles = " + inFiles);
+        System.out.println("\tExit GETLISTFILES");
         return inFiles;
+
     }
 
     /**
