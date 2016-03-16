@@ -11,13 +11,18 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
-
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * The Main activity of the app
+ * @author Andy
+ * @author Jared
+ * @author Nathan
+ */
 public class MainActivity extends AppCompatActivity {
 
     MediaRecorder mRecorder;
@@ -77,6 +82,10 @@ public class MainActivity extends AppCompatActivity {
         return inFiles;
     }
 
+    /**
+     * stopIt function stops the media player and changes the button
+     * @param v View which provides context
+     */
     public void stopIt (View v) {
         jamsesh.stop();
         playpress = true;
@@ -88,6 +97,10 @@ public class MainActivity extends AppCompatActivity {
         fileAdapter.notifyDataSetChanged();
     }
 
+    /**
+     * do_things plays and pauses the jamsesh
+     * @param vee view from which context is gathered
+     */
     public void do_things(View vee) {
         Button just_pressed = (Button)vee;
         /*switch (just_pressed.getId()) {
@@ -113,17 +126,21 @@ public class MainActivity extends AppCompatActivity {
         }*/
     }
 
+    /**
+     * record_actions will start the media recorder and change the button
+     * @param view provides the context
+     */
     public void record_actions(View view) {
         Button mRecorder = (Button)view;
 
         EditText name = (EditText)findViewById(R.id.fileNamer);
         if(!isRecording) {
             startRecording();
-            Log.i("Record_Actions", "File STARTed recording under the name \"" + name.getText().toString() + ".\"");
+            Log.i("Record_Actions", "File STARTed recording under the name \"" + name.getText().toString() + "\".");
             mRecorder.setText("Stop Recording");
         } else {
             stopRecording();
-            Log.i("Record_Actions", "File STOPPed recording under the name \"" + name.getText().toString() + ".\"");
+            Log.i("Record_Actions", "File STOPPed recording under the name \"" + name.getText().toString() + "\".");
             mRecorder.setText("Start Recording");
         }
         isRecording = !isRecording;
