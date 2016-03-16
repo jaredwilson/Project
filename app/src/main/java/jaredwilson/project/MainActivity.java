@@ -39,6 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
 
     @Override
+    /**
+     * onCreate sets up the frame work for the app.
+     * Also is like constructor, instantiating variables
+     */
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
@@ -66,7 +70,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
+    /**
+     * getListFiles is incomplete file grabber
+     * @param parentDir should give the directory for files
+     * @return list of files
+     */
     private List<String> getListFiles(File parentDir) {
         ArrayList<String> inFiles = new ArrayList<>();
         File[] files = parentDir.listFiles();
@@ -146,6 +154,9 @@ public class MainActivity extends AppCompatActivity {
         isRecording = !isRecording;
     }
 
+    /**
+     * startRecording will start the recording, saving at a certain place
+     */
     private void startRecording() {
         EditText edt = (EditText)findViewById(R.id.fileNamer);
         String filePath = this.getFilesDir().getPath() + edt.getText().toString();
@@ -162,12 +173,19 @@ public class MainActivity extends AppCompatActivity {
         mRecorder.start();
     }
 
+    /**
+     * stopRecording with stop the recorder and release it
+     */
     private void stopRecording() {
         mRecorder.stop();
         mRecorder.release();
         mRecorder = null;
     }
 
+    /**
+     * play_actions with change the button to start/stop, and call the proper function
+     * @param view
+     */
     public void play_actions(View view) {
         Button mPlayer = (Button)view;
 
@@ -181,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
         isPlaying = !isPlaying;
     }
 
+    /**
+     * startPlaying() will start the mediaPlayer, catching errors
+     */
     private void startPlaying() {
         EditText edt = (EditText)findViewById(R.id.fileNamer);
         String filePath = this.getFilesDir().getPath() + edt.getText().toString();
@@ -194,6 +215,10 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
     }
+
+    /**
+     * stopPlaying() will stop the mediaPlayer, and log it
+     */
     private void stopPlaying() {
         mPlayer.release();
         mPlayer = null;
