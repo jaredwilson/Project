@@ -51,11 +51,13 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
-        listOfFileNames = new ArrayList<>();
-        if(this.getFilesDir().length() != 0){
-            System.out.println("adding files");
-            listOfFileNames.addAll(Arrays.asList(this.getFilesDir().list())); }
 
+
+        listOfFileNames = new ArrayList<>();
+        String[] listOfFN = this.getFilesDir().list();
+        for(String str : listOfFN) {
+            listOfFileNames.add(str);
+        }
         fileAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
 
         ListView lv = (ListView)findViewById(R.id.listViewSongs);
@@ -162,9 +164,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("\tExit DO_THINGS");
     }
 
-    /**
-     * startRecording will start the recording, saving at a certain place
-     */
     private void startRecording() {
         System.out.println("\t\tEnter STARTRECORDING");
         EditText edt = (EditText)findViewById(R.id.fileNamer);
@@ -206,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * play_actions with change the button to start/stop, and call the proper function
-     * @param view
+     * @param view Some description
      */
     public void play_actions(View view) {
         System.out.println("\tEnter PLAY_ACTIONS");
