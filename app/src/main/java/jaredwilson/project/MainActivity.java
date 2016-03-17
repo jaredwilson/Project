@@ -46,10 +46,13 @@ public class MainActivity extends AppCompatActivity {
         playpress = true;
         isRecording = false;
         jamsesh = MediaPlayer.create(this, R.raw.jammin);
-        listOfFileNames = new ArrayList<>();
-        if(this.getFilesDir().length() != 0){
-            listOfFileNames.addAll(Arrays.asList(this.getFilesDir().list())); }
 
+
+        listOfFileNames = new ArrayList<>();
+        String[] listOfFN = this.getFilesDir().list();
+        for(String str : listOfFN) {
+            listOfFileNames.add(str);
+        }
         fileAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
 
         ListView lv = (ListView)findViewById(R.id.listViewSongs);
