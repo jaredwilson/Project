@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">Project</string>
+    <string name="rec_time">00:00:00</string>
+
+
     <string name="testString">Commence enumeration!</string>
     <string name="testString2">Reset</string>
     <string name="recordButton">Record Button</string>

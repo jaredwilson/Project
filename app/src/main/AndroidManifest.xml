@@ -11,7 +11,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        <activity android:name=".Homeboy">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -21,11 +21,6 @@
         <activity android:name=".Recording" />
         <activity android:name=".Files" />
         <activity android:name=".Editing" />
-        <activity
-            android:name=".Homeboy"
-            android:configChanges="orientation|keyboardHidden|screenSize"
-            android:label="@string/title_activity_homeboy"
-            android:theme="@style/FullscreenTheme"></activity>
     </application>
 
 </manifest>
