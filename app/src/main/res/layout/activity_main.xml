@@ -27,7 +27,7 @@
         android:id="@+id/record_button"
         android:layout_centerVertical="true"
         android:layout_alignParentStart="true"
-        android:onClick="record_actions"/>
+        android:onClick="do_things"/>
 
     <Button
         android:layout_width="wrap_content"
