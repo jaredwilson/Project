@@ -164,26 +164,6 @@ public class MainActivity extends AppCompatActivity {
         System.out.println("\tExit DO_THINGS");
     }
 
-    /**
-     * record_actions will start the media recorder and change the button
-     * @param view provides the context
-     */
-    public void record_actions(View view) {
-        Button mRecorder = (Button)view;
-
-        EditText name = (EditText)findViewById(R.id.fileNamer);
-        if(!isRecording) {
-            startRecording();
-            Log.i("Record_Actions", "File STARTed recording under the name \"" + name.getText().toString() + "\".");
-            mRecorder.setText("Stop Recording");
-        } else {
-            stopRecording();
-            Log.i("Record_Actions", "File STOPPed recording under the name \"" + name.getText().toString() + "\".");
-            mRecorder.setText("Start Recording");
-        }
-        isRecording = !isRecording;
-    }
-
     private void startRecording() {
         System.out.println("\t\tEnter STARTRECORDING");
         EditText edt = (EditText)findViewById(R.id.fileNamer);
@@ -225,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     /**
      * play_actions with change the button to start/stop, and call the proper function
-     * @param view
+     * @param view Some description
      */
     public void play_actions(View view) {
         System.out.println("\tEnter PLAY_ACTIONS");
