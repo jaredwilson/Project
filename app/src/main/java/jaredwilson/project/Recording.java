@@ -1,6 +1,7 @@
 package jaredwilson.project;
 
 import android.content.Intent;
+import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -13,11 +14,21 @@ public class Recording extends AppCompatActivity  {
     public String filename;
     public String progress;
     public int progressInSeconds;
+    //stuff
+    MediaRecorder recorder;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
 
+        catchIntent();
+        createRecording();
+
+
+    }
+
+    public void catchIntent() {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
@@ -38,10 +49,20 @@ public class Recording extends AppCompatActivity  {
                 // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
 
             } catch (Exception e) {}
-
-
         }
+    }
+    public void createRecording() {
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setOutputFile(filename);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        try {
+            recorder.prepare();
+        } catch (Exception e) {}
+    }
 
+    public void pressRECORD(View v) {
 
     }
 

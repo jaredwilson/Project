@@ -3,6 +3,7 @@ package jaredwilson.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import android.content.Intent;
@@ -12,17 +13,28 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.util.List;
+
 public class Files extends AppCompatActivity  {
     public final static String key = "key";
     public String filename;
     public String progress;
     public int progressInSeconds;
+    // stuff
+    List<String> listOfFileNames;
+    ArrayAdapter<String> fileAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.files_layout);
+        catchIntent();
 
+
+
+    }
+
+    public void catchIntent() {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
@@ -43,10 +55,7 @@ public class Files extends AppCompatActivity  {
                 // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
 
             } catch (Exception e) {}
-
-
         }
-
     }
 
     // functions for PlaybackModule

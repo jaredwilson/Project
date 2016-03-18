@@ -42,16 +42,6 @@ tools:context=".Files">
     android:onClick="editTabPress"/>
 
 
-<TextView android:id="@+id/fsContent"
-    android:text="File System..."
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textSize="40sp"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    />
-
 <!-- the following will be active with event listeners-->
 <ProgressBar
     style="?android:attr/progressBarStyleHorizontal"
@@ -92,6 +82,14 @@ tools:context=".Files">
     android:layout_marginLeft="55dp"
     android:layout_marginStart="55dp"
     />
+
+    <ListView android:id="@+id/listView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/folderTab"
+        android:layout_above="@+id/progressBar"
+        android:layout_marginTop="15dp"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
