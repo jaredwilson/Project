@@ -8,16 +8,22 @@ import android.view.View;
 import android.widget.ProgressBar;
 
 public class Homeboy extends AppCompatActivity {
-    public final static String pass_to_next_activity = "com.mycompany.myfirstapp.MESSAGE";
+    public final static String key = "key";
+    public String message = ",";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.homeboy_layout);
+
+        // create a function that waits 2 second, then runs onClick() automatically.
     }
 
     public void onClick(View v) {
+        new ChangeTabs().execute("Recording", message, this);
+        /*
         Intent intent = new Intent(this, Recording.class);
-        intent.putExtra(pass_to_next_activity, "");
+        intent.putExtra(key, message);
         startActivity(intent);
+        super.finish();*/
     }
 }

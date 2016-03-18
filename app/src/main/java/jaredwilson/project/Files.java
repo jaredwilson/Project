@@ -12,9 +12,10 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-public class Files extends AppCompatActivity implements SoundHubActivity {
-    public final static String pass_to_next_activity = "com.mycompany.myfirstapp.MESSAGE";
+public class Files extends AppCompatActivity  {
+    public final static String key = "key";
     public String filename;
+    public String progress;
     public int progressInSeconds;
 
     @Override
@@ -24,19 +25,22 @@ public class Files extends AppCompatActivity implements SoundHubActivity {
 
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
-        String message = intent.getStringExtra(Recording.pass_to_next_activity);
+        String message = intent.getStringExtra(key);
 
         // check message values. IF null set appropriate flags
-        if (message == "") {
-            // there's no file, no file will have emphasis
+        if (message.equals(",")) {
+            // there's no file, so a recording will require creating a new file.
+            filename = "";
+            progress = "";
 
         } else {
             filename = (message.split(","))[0];
-            progressInSeconds = Integer.parseInt((message.split(","))[1]);
+            progress = (message.split(","))[1];
+            progressInSeconds = Integer.parseInt(progress);
 
             try {
                 // prepare the audio file for playing
-                // make sure we can see that file tile and it has emphasis
+                // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
 
             } catch (Exception e) {}
 
@@ -56,57 +60,14 @@ public class Files extends AppCompatActivity implements SoundHubActivity {
     public void pressRW() {
     }
 
-    // functions for NavigationModule
-    public void pressRecord() {
+    // functions for Navigation
+    public void filesTabPress(View v) {/* we're there already, so do nothing */}
+
+    public void recordingTabPress(View v) {
+        new ChangeTabs().execute("Recording",(filename + "," + progress),this);
     }
 
-    public void pressOpen() {
+    public void editTabPress(View v) {
+        new ChangeTabs().execute("Editing", (filename + "," + progress), this);
     }
-
-    public void pressEdit() {
-    }
-
-
-    // Commented stuff is from previous testing work...
-/*
-    public void onRecClick(View v) {
-        Intent intent = new Intent(this, Recording.class);
-
-        // later, we'll pull the actual progress in seconds from here...
-        ProgressBar pBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        String message = filename + "," + Integer.toString(progressInSeconds);
-        intent.putExtra(pass_to_next_activity, message);
-        startActivity(intent);
-    }
-
-    public void onEditClick(View v) {
-        Intent intent = new Intent(this, Editing.class);
-
-        // later, we'll pull the actual progress in seconds from here...
-        ProgressBar pBar = (ProgressBar) findViewById(R.id.progressBar);
-
-        String message = filename + "," + Integer.toString(progressInSeconds);
-        intent.putExtra(pass_to_next_activity, message);
-        startActivity(intent);
-    }
-*/
-
-    /*
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.files_layout);
-
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(Recording.pass_to_next_activity);
-
-
-        TextView textView = new TextView(this);
-        textView.setTextSize(40);
-        textView.setText(message);
-        LinearLayout layout = (LinearLayout) findViewById(R.id.content);
-        layout.addView(textView);
-    }
-    */
 }
