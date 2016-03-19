@@ -11,8 +11,10 @@ import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,6 +26,7 @@ public class Files extends AppCompatActivity  {
     public int progressInSeconds;
     private List<String> listOfFileNames;
     private ArrayAdapter<String> fileAdapter;
+    private MyCustomArrayAdapter mcaa;
     private final PlayActions player = PlayActions.getInstance();
 
     @Override
@@ -38,6 +41,16 @@ public class Files extends AppCompatActivity  {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
 
+        mcaa = new MyCustomArrayAdapter(this, this.getFilesDir().listFiles(), this.getFilesDir());
+        ListView lv = (ListView)findViewById(R.id.listView);
+        lv.setAdapter(mcaa);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listClickActions(view);
+            }
+        });
+/*
         listOfFileNames = new ArrayList<>();
         String[] listOfFN = this.getFilesDir().list();
         for(String str : listOfFN) {
@@ -52,6 +65,9 @@ public class Files extends AppCompatActivity  {
                 listClickActions(view);
             }
         });
+        */
+
+
     }
 
     private void catchIntent() {
@@ -79,11 +95,14 @@ public class Files extends AppCompatActivity  {
     }
 
     private void listClickActions(View view) {
-        filename = this.getFilesDir().getPath()+ "/" + ((TextView) view).getText().toString();
+        //
+        // Holy moly this was ridiculous!
+        //
+        filename = this.getFilesDir().getPath()+ "/" + ((TextView)(view).findViewById(R.id.firstLine)).getText().toString();
         progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
-        tv.setText(((TextView) view).getText().toString());
-        Log.i("Str","path: " + this.getFilesDir().getPath());
+        tv.setText(((TextView)(view).findViewById(R.id.firstLine)).getText().toString());
+        Log.i("Str", "path: " + this.getFilesDir().getPath());
     }
 
     // functions for Navigation

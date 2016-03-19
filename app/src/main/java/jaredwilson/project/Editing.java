@@ -87,7 +87,6 @@ public class Editing extends AppCompatActivity {
     public void renameFile(View v) {
 
         if(fileExists) {
-
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter new name");
 

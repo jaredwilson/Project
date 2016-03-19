@@ -6,6 +6,7 @@ import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -15,6 +16,9 @@ import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -71,6 +75,9 @@ public class Recording extends AppCompatActivity  {
 
     // functions for Navigation
     public void filesTabPress(View v) {
+        for(String fn : this.getFilesDir().list()) {
+            Log.i("FileName",fn);
+        }
         releaseResources();
         new ChangeTabs().execute("Files",(filename + "," + progress),this);
     }
@@ -83,31 +90,34 @@ public class Recording extends AppCompatActivity  {
     public void onRecord(View v) {
         if (isPlaying) {
             stopPlaying();
-
         }
         if (!isRecording) {
             startRecording();
 
         } else {
             endRecording();
-
         }
+        isRecording = !isRecording;
 
 
     }
 
+    /*
+    Calendar c = Calendar.getInstance();
+    int seconds = c.get(Calendar.SECOND);
+     */
+
     private void startRecording() {
+        filename = this.getFilesDir().getPath() + "/" + Calendar.getInstance().getTime().toString().replaceAll(":", "_");
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(filename + rCount);
+        recorder.setOutputFile(filename);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
         try {
             recorder.prepare();
         } catch (Exception e) {}
 
-        isRecording = true;
         // change the button to Stop
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
         recorder.start();
@@ -118,7 +128,6 @@ public class Recording extends AppCompatActivity  {
             recorder.stop();
             recorder.release();
             recorder = null;
-            isRecording = false;
             ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
             last_saved_filename = filename + rCount;
             rCount++;
