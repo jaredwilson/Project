@@ -84,6 +84,17 @@ public class Editing extends AppCompatActivity {
 
     public void pressRW() {}
 
+    private void rename(String stringInput) {
+        newFilename = stringInput;
+        File file = new File(filename);
+
+        // rename file to new path
+        file.renameTo(new File(path + "/" + newFilename));
+
+        new ChangeTabs().execute("Files", ",", this);
+
+    }
+
     public void renameFile(View v) {
 
         if(fileExists) {
@@ -94,14 +105,10 @@ public class Editing extends AppCompatActivity {
             builder.setView(input);
 
 
-            builder.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+            builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
-                    newFilename = input.getText().toString();
-                    File file = new File(path + "/" + filename);
-
-                    // rename file to new path
-                    file.renameTo(new File(path + "/" + newFilename));
+                    rename(input.getText().toString());
                 }
             });
             builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
@@ -116,25 +123,30 @@ public class Editing extends AppCompatActivity {
 
     }
 
+    private void delete () {
+        File file = new File(filename);
+        try {
+            file.getCanonicalFile().delete();
+            new ChangeTabs().execute("Files", ",", this);
+
+        } catch (IOException e) {
+            Log.e("Delete Error", "Could not delete, " + e);
+        }
+    }
+
     public void deleteFile (View v) {
         if (fileExists) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
                     .setTitle("Delete File")
-                    .setMessage("Are you sure you wish to delete this file?")
-                    .setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+                    .setMessage("Are you sure you wish to delete " + filename + "?")
+                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
-                            File file = new File(path + "/" + filename);
-                            try {
-                                file.getCanonicalFile().delete();
-                                new ChangeTabs().execute("Files", (filename + "," + progress), this);
-                            } catch (IOException e) {
-                                Log.e("Delete Error", "Could not delete, " + e);
-                            }
+                            delete();
                         }
                     })
-                    .setNegativeButton("No", null)
+                    .setNegativeButton("Cancel", null)
                     .show();
         }
     }

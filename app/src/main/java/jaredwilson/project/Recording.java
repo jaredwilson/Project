@@ -1,5 +1,7 @@
 package jaredwilson.project;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaPlayer;
@@ -131,7 +133,37 @@ public class Recording extends AppCompatActivity  {
             ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
             last_saved_filename = filename + rCount;
             rCount++;
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(this);
+            builder.setTitle("Enter new name");
+
+            final EditText input = new EditText(this);
+            builder.setView(input);
+
+
+            builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    rename(input.getText().toString());
+                }
+            });
+            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.cancel();
+                }
+            });
+
+            builder.show();
         }
+    }
+
+    private void rename(String stringInput) {
+        String newFilename = stringInput;
+        File file = new File(filename);
+
+        // rename file to new path
+        file.renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
     }
 
     // PLAYING STUFF***********************************************************

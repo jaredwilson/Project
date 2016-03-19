@@ -15,14 +15,17 @@ public class Homeboy extends AppCompatActivity {
     public String message = "untitled,0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.homeboy_layout);
 
-        // change color of status bar to black
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.homeboy_layout);
+
+        // change color of status bar to black
+
 
         // create a function that waits 2 second, then runs onClick() automatically.
     }
