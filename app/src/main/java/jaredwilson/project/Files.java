@@ -1,9 +1,12 @@
 package jaredwilson.project;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 
 
 public class Files extends AppCompatActivity  {
@@ -18,6 +21,12 @@ public class Files extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.files_layout);
         catchIntent();
+
+        // change color of status bar to black
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(Color.BLACK);
 
     }
 
