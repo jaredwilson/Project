@@ -1,11 +1,14 @@
 package jaredwilson.project;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import android.content.Intent;
@@ -15,13 +18,16 @@ import android.view.View;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import java.io.File;
+
 public class Editing extends AppCompatActivity {
     public final static String key = "key";
     public String filename;
     public String progress;
     public int progressInSeconds;
     private final PlayActions player = PlayActions.getInstance();
-
+    public String newFilename;
+    public boolean renameConfirm;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,6 +76,45 @@ public class Editing extends AppCompatActivity {
     public void pressFF() {}
 
     public void pressRW() {}
+
+    public void renameFile(View v) {
+
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("Enter new name");
+
+        final EditText input = new EditText(this);
+        builder.setView(input);
+
+        builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                newFilename = input.getText().toString();
+                renameConfirm = true;
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.cancel();
+                renameConfirm = false;
+            }
+        });
+
+        builder.show();
+
+        if(renameConfirm) {
+            // create file using current path
+            File file = new File(this.getFilesDir().getPath() + "/" + filename);
+
+            // rename file to new path
+            file.renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
+        }
+    }
+
+    public void deleteFile (View v) {
+
+    }
     // functions for Navigation
     public void editTabPress(View v) {/* we're there already, so do nothing */}
 
