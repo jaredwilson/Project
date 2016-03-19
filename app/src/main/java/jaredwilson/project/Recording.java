@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -33,20 +34,96 @@ public class Recording extends AppCompatActivity  {
         isRecording = false;
         isPlaying = false;
         catchIntent();
-
     }
 
-    private void onRecord(View v) {
-        if (isRecording) {
-            startRecording();
-            // change the button to stop Recording
+    public void catchIntent() {
+        // Catch intent from sending Activity (filter?)
+        Intent intent = getIntent();
+        String message = intent.getStringExtra(key);
+
+        // check message values. IF null set appropriate flags
+        if (message.equals(",")) {
+            // there's no file, so a recording will require creating a new file.
+            filename = "";
+            progress = "";
+
         } else {
-            stopRecording();
+            filename = (message.split(","))[0];
+            progress = (message.split(","))[1];
+            progressInSeconds = Integer.parseInt(progress);
+
+            try {
+                recorder = new MediaRecorder();
+                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+                recorder.setOutputFile(filename);
+                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+                try {
+                    recorder.prepare();
+                } catch (Exception e) {}
+
+            } catch (Exception e) {}
         }
     }
 
-    private void onPlay(View v) {
+    // functions for Navigation
+    public void filesTabPress(View v) {
+        releaseResources();
+        new ChangeTabs().execute("Files",(filename + "," + progress),this);
+    }
+    public void editTabPress(View v) {
+        releaseResources();
+        new ChangeTabs().execute("Editing", (filename + "," + progress), this);
+    }
+
+    // RECORDING STUFF***********************************************************
+    private void onRecord(View v) {
         if (isPlaying) {
+            stopPlaying();
+            isPlaying = false;
+        }
+        if (!isRecording) {
+            startRecording();
+            isRecording = true;
+            // change the button to stop Recording
+            ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
+        } else {
+            endRecording();
+
+        }
+    }
+
+
+    private void startRecording() {
+        recorder = new MediaRecorder();
+        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
+        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
+        recorder.setOutputFile(filename);
+        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+
+        try {
+            recorder.prepare();
+        } catch (Exception e) {}
+
+        recorder.start();
+    }
+
+    private void endRecording() {
+        if (recorder != null) {
+            recorder.stop();
+            recorder.release();
+            recorder = null;
+        }
+    }
+
+    // PLAYING STUFF***********************************************************
+    private void onPlay(View v) {
+        if (isRecording) {
+            endRecording();
+        }
+        if (!isPlaying) {
+            isPlaying = true;
             startPlaying();
             // change the button to pause
         } else {
@@ -54,7 +131,11 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
-    public void onPause() {
+    public void onPlayPause(View v) {
+
+    }
+
+    private void releaseResources() {
         super.onPause();
         if (recorder != null) {
             recorder.release();
@@ -81,60 +162,8 @@ public class Recording extends AppCompatActivity  {
         player = null;
     }
 
-    private void startRecording() {
-        recorder = new MediaRecorder();
-        recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-        recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(filename);
-        recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+    // UBIQUITOUS STUFF***********************************************************
 
-        try {
-            recorder.prepare();
-        } catch (Exception e) {}
-
-        recorder.start();
-    }
-
-    private void stopRecording() {
-        recorder.stop();
-        recorder.release();
-        recorder = null;
-    }
-
-    public void catchIntent() {
-        // Catch intent from sending Activity (filter?)
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(key);
-
-        // check message values. IF null set appropriate flags
-        if (message.equals(",")) {
-            // there's no file, so a recording will require creating a new file.
-            filename = "";
-            progress = "";
-
-        } else {
-            filename = (message.split(","))[0];
-            progress = (message.split(","))[1];
-            progressInSeconds = Integer.parseInt(progress);
-
-            try {
-                // prepare the audio file for playing
-                // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
-
-            } catch (Exception e) {}
-        }
-    }
-
-    // functions for Navigation
-    public void recordingTabPress(View v) {/* we're there already, so do nothing */}
-
-    public void filesTabPress(View v) {
-        new ChangeTabs().execute("Files",(filename + "," + progress),this);
-    }
-
-    public void editTabPress(View v) {
-        new ChangeTabs().execute("Editing", (filename + "," + progress), this);
-    }
 }
 
 

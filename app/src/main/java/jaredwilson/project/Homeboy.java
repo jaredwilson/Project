@@ -9,7 +9,7 @@ import android.widget.ProgressBar;
 
 public class Homeboy extends AppCompatActivity {
     public final static String key = "key";
-    public String message = ",";
+    public String message = "untitled,0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
