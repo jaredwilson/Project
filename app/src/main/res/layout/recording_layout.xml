@@ -61,7 +61,7 @@
         android:background="@raw/rec_03copy"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="pressRECORD"/>
+        android:onClick="on"/>
 
     <!-- FOR TESTING
     <EditText

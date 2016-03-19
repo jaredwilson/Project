@@ -3,26 +3,15 @@ package jaredwilson.project;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.ArrayAdapter;
-import android.widget.TextView;
-
-import android.content.Intent;
-import android.support.v7.app.AppCompatActivity;
-import android.os.Bundle;
 import android.view.View;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 
-import java.util.List;
 
 public class Files extends AppCompatActivity  {
     public final static String key = "key";
     public String filename;
     public String progress;
     public int progressInSeconds;
-    // stuff
-    List<String> listOfFileNames;
-    ArrayAdapter<String> fileAdapter;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -30,11 +19,9 @@ public class Files extends AppCompatActivity  {
         setContentView(R.layout.files_layout);
         catchIntent();
 
-
-
     }
 
-    public void catchIntent() {
+    private void catchIntent() {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
@@ -58,24 +45,11 @@ public class Files extends AppCompatActivity  {
         }
     }
 
-    // functions for PlaybackModule
-    public void pressPlay() {
-
-    }
-
-    public void pressFF() {
-    }
-
-    public void pressRW() {
-    }
-
     // functions for Navigation
     public void filesTabPress(View v) {/* we're there already, so do nothing */}
-
     public void recordingTabPress(View v) {
         new ChangeTabs().execute("Recording",(filename + "," + progress),this);
     }
-
     public void editTabPress(View v) {
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
     }
