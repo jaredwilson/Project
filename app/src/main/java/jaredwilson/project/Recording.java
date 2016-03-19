@@ -22,11 +22,14 @@ import java.util.Map;
 public class Recording extends AppCompatActivity  {
     public final static String key = "key";
     public String filename;
+    public String last_saved_filename;
     public String progress;
+    public int rCount;
     public int progressInSeconds;
     //stuff
     public boolean isRecording;
     public boolean isPlaying;
+    public boolean canPlay;
     private MediaPlayer player = null;
     private MediaRecorder recorder = null;
 
@@ -34,7 +37,6 @@ public class Recording extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
-
         // change color of status bar to black
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
@@ -43,6 +45,7 @@ public class Recording extends AppCompatActivity  {
 
         isRecording = false;
         isPlaying = false;
+        rCount = 1;
         catchIntent();
     }
 
@@ -50,31 +53,20 @@ public class Recording extends AppCompatActivity  {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
-
+        filename = (message.split(","))[0];
+        progress = (message.split(","))[1];
+        progressInSeconds = Integer.parseInt(progress);
         // check message values. IF null set appropriate flags
-        if (message.equals(",")) {
+        /*if (message.equals("untitled,0")) {
             // there's no file, so a recording will require creating a new file.
-            filename = "";
-            progress = "";
+            filename = "untitled";
+            progress = "0";
 
         } else {
             filename = (message.split(","))[0];
             progress = (message.split(","))[1];
             progressInSeconds = Integer.parseInt(progress);
-
-            try {
-                recorder = new MediaRecorder();
-                recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
-                recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-                recorder.setOutputFile(filename);
-                recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
-
-                try {
-                    recorder.prepare();
-                } catch (Exception e) {}
-
-            } catch (Exception e) {}
-        }
+        }*/
     }
 
     // functions for Navigation
@@ -88,34 +80,36 @@ public class Recording extends AppCompatActivity  {
     }
 
     // RECORDING STUFF***********************************************************
-    private void onRecord(View v) {
+    public void onRecord(View v) {
         if (isPlaying) {
             stopPlaying();
-            isPlaying = false;
+
         }
         if (!isRecording) {
             startRecording();
-            isRecording = true;
-            // change the button to stop Recording
-            ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
+
         } else {
             endRecording();
 
         }
-    }
 
+
+    }
 
     private void startRecording() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
-        recorder.setOutputFile(filename);
+        recorder.setOutputFile(filename + rCount);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
 
         try {
             recorder.prepare();
         } catch (Exception e) {}
 
+        isRecording = true;
+        // change the button to Stop
+        ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
         recorder.start();
     }
 
@@ -124,27 +118,46 @@ public class Recording extends AppCompatActivity  {
             recorder.stop();
             recorder.release();
             recorder = null;
+            isRecording = false;
+            ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
+            last_saved_filename = filename + rCount;
+            rCount++;
         }
     }
 
     // PLAYING STUFF***********************************************************
-    private void onPlay(View v) {
-        if (isRecording) {
-            endRecording();
-        }
-        if (!isPlaying) {
-            isPlaying = true;
+    public void onPlay(View v) {
+        if (!isPlaying && last_saved_filename != null) {
             startPlaying();
-            // change the button to pause
-        } else {
+        } else if (isPlaying && last_saved_filename != null){
             stopPlaying();
         }
+        else {
+            // grey out play
+        }
     }
 
-    public void onPlayPause(View v) {
 
+
+    private void startPlaying() {
+            player = new MediaPlayer();
+            try {
+                player.setDataSource(filename + rCount);
+                player.prepare();
+                player.start();
+                isPlaying = true;
+                ((ImageButton)findViewById(R.id.playButt)).setImageResource(R.drawable.pause_white);
+            } catch (Exception e) { }
     }
 
+    private void stopPlaying() {
+        player.release();
+        isPlaying = false;
+        player = null;
+    }
+
+
+    // UBIQUITOUS STUFF***********************************************************
     private void releaseResources() {
         super.onPause();
         if (recorder != null) {
@@ -157,23 +170,6 @@ public class Recording extends AppCompatActivity  {
             player = null;
         }
     }
-
-    private void startPlaying() {
-        player = new MediaPlayer();
-        try {
-            player.setDataSource(filename);
-            player.prepare();
-            player.start();
-        } catch (Exception e) {}
-    }
-
-    private void stopPlaying() {
-        player.release();
-        player = null;
-    }
-
-    // UBIQUITOUS STUFF***********************************************************
-
 }
 
 

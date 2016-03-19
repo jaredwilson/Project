@@ -61,7 +61,7 @@
         android:background="@drawable/rec_03copy"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="on"/>
+        android:onClick="onRecord"/>
 
     <!-- FOR TESTING
     <EditText
@@ -95,7 +95,7 @@
         android:layout_toStartOf="@+id/bckButt"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        />
+        android:onClick="onPlay"/>
     <ImageButton android:id="@+id/bckButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
