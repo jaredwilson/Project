@@ -20,6 +20,9 @@ public class Editing extends AppCompatActivity {
     public String filename;
     public String progress;
     public int progressInSeconds;
+    private final PlayActions player = PlayActions.getInstance();
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -57,7 +60,12 @@ public class Editing extends AppCompatActivity {
     }
 
     // functions for PlaybackModule
-    public void pressPlay() {}
+    public void pressPlay(View view) {
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
+        }
+        player.play_actions(view);
+    }
 
     public void pressFF() {}
 

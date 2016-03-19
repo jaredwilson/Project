@@ -4,9 +4,17 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class Files extends AppCompatActivity  {
@@ -14,7 +22,9 @@ public class Files extends AppCompatActivity  {
     public String filename;
     public String progress;
     public int progressInSeconds;
-
+    private List<String> listOfFileNames;
+    private ArrayAdapter<String> fileAdapter;
+    private final PlayActions player = PlayActions.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -28,6 +38,20 @@ public class Files extends AppCompatActivity  {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
 
+        listOfFileNames = new ArrayList<>();
+        String[] listOfFN = this.getFilesDir().list();
+        for(String str : listOfFN) {
+            listOfFileNames.add(str);
+        }
+        fileAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
+        ListView lv = (ListView)findViewById(R.id.listView);
+        lv.setAdapter(fileAdapter);
+        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                listClickActions(view);
+            }
+        });
     }
 
     private void catchIntent() {
@@ -54,6 +78,14 @@ public class Files extends AppCompatActivity  {
         }
     }
 
+    private void listClickActions(View view) {
+        filename = this.getFilesDir().getPath()+ "/" + ((TextView) view).getText().toString();
+        progress = "0";
+        TextView tv = (TextView)findViewById(R.id.selectedTextView);
+        tv.setText(((TextView) view).getText().toString());
+        Log.i("Str","path: " + this.getFilesDir().getPath());
+    }
+
     // functions for Navigation
     public void filesTabPress(View v) {/* we're there already, so do nothing */}
     public void recordingTabPress(View v) {
@@ -62,4 +94,12 @@ public class Files extends AppCompatActivity  {
     public void editTabPress(View v) {
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
     }
+
+    public void playActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
+        }
+        player.play_actions(view);
+    }
 }
+
