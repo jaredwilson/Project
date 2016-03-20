@@ -37,12 +37,7 @@ public class Editing extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editing_layout);
-
-        // change color of status bar to black
-        Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.BLACK);
+        black_outStatusBar();
 
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
@@ -70,6 +65,14 @@ public class Editing extends AppCompatActivity {
 
 
         }
+    }
+
+    private void black_outStatusBar() {
+        // change color of status bar to black
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(Color.BLACK);
     }
 
     // functions for PlaybackModule

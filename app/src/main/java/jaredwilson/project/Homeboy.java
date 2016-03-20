@@ -3,6 +3,7 @@ package jaredwilson.project;
 
 import android.content.Intent;
 import android.graphics.Color;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
@@ -15,27 +16,19 @@ public class Homeboy extends AppCompatActivity {
     public String message = "untitled,0";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.homeboy_layout);
+        black_outStatusBar();
+        // create a function that waits 2 second, then runs onClick() automatically.
+        new Handler().postDelayed(new Runnable() {public void run() { move_on(); }}, 4000);
+    }
+    private void black_outStatusBar() {
+        // change color of status bar to black
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
-
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.homeboy_layout);
-
-        // change color of status bar to black
-
-
-        // create a function that waits 2 second, then runs onClick() automatically.
     }
-
-    public void onClick(View v) {
-        new ChangeTabs().execute("Recording", message, this);
-        /*
-        Intent intent = new Intent(this, Recording.class);
-        intent.putExtra(key, message);
-        startActivity(intent);
-        super.finish();*/
-    }
+    public void onClick(View v) { move_on(); }
+    public void move_on() { new ChangeTabs().execute("Recording", message, this); }
 }

@@ -47,16 +47,19 @@ public class Recording extends AppCompatActivity  {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
+        isRecording = false;
+        isPlaying = false;
+        rCount = 1;
+        catchIntent();
+        black_outStatusBar();
+    }
+
+    private void black_outStatusBar() {
         // change color of status bar to black
         Window window = this.getWindow();
         window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
-
-        isRecording = false;
-        isPlaying = false;
-        rCount = 1;
-        catchIntent();
     }
 
     public void catchIntent() {
@@ -85,7 +88,7 @@ public class Recording extends AppCompatActivity  {
             Log.i("FileName",fn);
         }
         releaseResources();
-        new ChangeTabs().execute("Files",(filename + "," + progress),this);
+        new ChangeTabs().execute("Files", (filename + "," + progress), this);
     }
     public void editTabPress(View v) {
         releaseResources();

@@ -1,10 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- is this where the blueness of the status bar comes from? -->
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
+    <!-- weird T-mobile pink... -->
     <color name="colorAccent">#FF4081</color>
 
+
     <color name="black_overlay">#66000000</color>
-    <color name="accent_material_dark_1">#009926</color>
-    <color name="background_material_dark">#000000</color>
+    <color name="accent_material_dark_1">#008922</color>
+
+    <!-- colors to play & test with later... -->
+    <color name="aaa">#000000</color>
+    <color name="bbb">#000000</color>
+    <color name="ccc">#000000</color>
+    <color name="ddd">#000000</color>
+    <color name="eee">#000000</color>
 </resources>

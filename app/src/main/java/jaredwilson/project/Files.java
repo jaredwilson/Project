@@ -34,12 +34,9 @@ public class Files extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.files_layout);
         catchIntent();
+        black_outStatusBar();
 
-        // change color of status bar to black
-        Window window = this.getWindow();
-        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
-        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
-        window.setStatusBarColor(Color.BLACK);
+
 
         mcaa = new MyCustomArrayAdapter(this, this.getFilesDir().listFiles(), this.getFilesDir());
         ListView lv = (ListView)findViewById(R.id.listView);
@@ -66,8 +63,13 @@ public class Files extends AppCompatActivity  {
             }
         });
         */
-
-
+    }
+    private void black_outStatusBar() {
+        // change color of status bar to black
+        Window window = this.getWindow();
+        window.addFlags(WindowManager.LayoutParams.FLAG_DRAWS_SYSTEM_BAR_BACKGROUNDS);
+        window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
+        window.setStatusBarColor(Color.BLACK);
     }
 
     private void catchIntent() {
