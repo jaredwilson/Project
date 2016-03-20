@@ -4,6 +4,10 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.AudioFormat;
+import android.media.AudioManager;
+import android.media.AudioRecord;
+import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.support.v7.app.AppCompatActivity;
@@ -211,7 +215,33 @@ public class Recording extends AppCompatActivity  {
             player = null;
         }
     }
+
+    // Experimental stuff
+    static final int bufferSize = 20000;
+    public void run(View view) {
+        isRecording = true;
+        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
+        int buffersize = AudioRecord.getMinBufferSize(11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        AudioRecord arec = new AudioRecord(MediaRecorder.AudioSource.MIC, 11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize);
+        AudioTrack atrack = new AudioTrack(AudioManager.USE_DEFAULT_STREAM_TYPE, 11025, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize, AudioTrack.MODE_STREAM);
+        atrack.setPlaybackRate(11025);
+        byte[] buffer = new byte[buffersize];
+        arec.startRecording();
+        atrack.play();
+        while(isRecording) {
+            arec.read(buffer, 0, buffersize);
+            atrack.write(buffer, 0, buffer.length);
+        }
+    }
+
+
+
 }
+
+
+
+
+
 
 
 

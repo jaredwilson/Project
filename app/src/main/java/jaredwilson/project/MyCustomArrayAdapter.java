@@ -18,7 +18,7 @@ public class MyCustomArrayAdapter extends ArrayAdapter<File>{
     public MyCustomArrayAdapter(Context context, File[] filenames, File filePath) {
         super(context, -1, filenames);
         this.context = context;
-        this.filenames = new ArrayList<>(Arrays.asList(filenames[0].getParentFile().list()));
+        this.filenames = new ArrayList<>(Arrays.asList(filePath.list()));
         this.lengths = new ArrayList<>();
         this.modifieds = new ArrayList<>();
         for (File fn:
