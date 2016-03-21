@@ -21,6 +21,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -99,6 +100,9 @@ public class Recording extends AppCompatActivity  {
 
         } else {
             endRecording();
+
+            Toast.makeText(v.getContext(), "File saved.",
+                    Toast.LENGTH_LONG).show();
         }
         isRecording = !isRecording;
 
@@ -130,6 +134,7 @@ public class Recording extends AppCompatActivity  {
             last_saved_filename = filename + rCount;
             rCount++;
 
+            /*
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter new name");
 
@@ -148,14 +153,16 @@ public class Recording extends AppCompatActivity  {
                     dialog.cancel();
                 }
             });
-            builder.show();
+            builder.show();*/
+
+
         }
     }
-
+/*
     private void rename(String newFilename) {
         // rename file to new path
         (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
-    }
+    }*/
 
     // PLAYING STUFF***********************************************************
     public void playActions(View view) {

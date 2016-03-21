@@ -89,25 +89,14 @@ tools:context=".Editing"
     android:layout_marginStart="55dp"
     />
 
-    <Button
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Rename"
-        android:background="#00000000"
-        android:id="@+id/button"
-        android:layout_alignEnd="@+id/bckButt"
-        android:onClick="renameFile"
-        android:layout_centerVertical="true" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Delete"
-        android:background="#00000000"
-        android:id="@+id/deleteFile"
-        android:layout_alignEnd="@+id/editTab"
-        android:onClick="deleteFile"
-        android:layout_centerVertical="true" />
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Under Construction"
+        android:id="@+id/textView"
+        android:layout_centerVertical="true"
+        android:layout_centerHorizontal="true" />
 
 
 </RelativeLayout>
