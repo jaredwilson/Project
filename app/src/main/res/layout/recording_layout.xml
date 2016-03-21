@@ -45,6 +45,16 @@
         android:onClick="editTabPress"
         android:background="#00000000" />
 
+
+    <ProgressBar android:id="@+id/border1"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:layout_below="@+id/folderTab"
+        android:layout_centerHorizontal="true" />
+
     <!-- add onCLick event handler for this button later...-->
     <!-- ex: modal says "set recording time:" w/ spinners and OK/CANCEL
     TextView android:id="@+id/recTime"
@@ -81,53 +91,6 @@
         android:layout_marginBottom="51dp"
         android:text="thingssss"/>
     -->
-
-    <!-- The following should be inert for recording_layout.XML... -->
-    <ProgressBar
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/progressBar"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_marginRight="30dp"
-        android:layout_marginLeft="30dp"
-        android:layout_marginBottom="45dp"
-        />
-
-    <ImageButton android:id="@+id/playButt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/play_white"
-        android:layout_alignParentBottom="true"
-        android:layout_toLeftOf="@+id/bckButt"
-        android:layout_toStartOf="@+id/bckButt"
-        android:layout_marginRight="55dp"
-        android:layout_marginEnd="55dp"
-        android:onClick="onPlay"
-        android:background="#00000000" />
-
-    <ImageButton android:id="@+id/bckButt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/bck_white"
-        android:layout_alignParentBottom="true"
-        android:layout_centerHorizontal="true"
-        android:layout_alignBottom="@+id/progressBar"
-        android:background="#00000000"
-        android:onClick="seekBck"/>
-
-    <ImageButton android:id="@+id/fwdButt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/fwd_white"
-        android:layout_alignParentBottom="true"
-        android:layout_toRightOf="@+id/bckButt"
-        android:layout_toEndOf="@+id/bckButt"
-        android:layout_marginLeft="55dp"
-        android:layout_marginStart="55dp"
-        android:onClick="seekFwd"
-        android:background="#00000000" />
 
 <!-- THIS IS FOR 264, BUT NOT 371
     <Button
@@ -188,51 +151,195 @@
             android:onClick="onClick_pocketMode"/>
     </LinearLayout>
 
-    <LinearLayout android:id="@+id/sliderBar"
-        android:visibility="gone"
+    <RelativeLayout android:id="@+id/sliderBar"
+        android:visibility="visible"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
         android:layout_below="@+id/toolBar"
         android:layout_centerHorizontal="true"
-        android:paddingTop="12dp">
+        android:paddingTop="15dp">
 
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textAppearance="?android:attr/textAppearanceSmall"
-            android:text="Preset Recording time:"
-            android:id="@+id/setRecPrompt" />
-
-        <NumberPicker android:id="@+id/minuteSlider"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp" />
-
-        <NumberPicker android:id="@+id/secondSlider"
-            android:layout_width="wrap_content"
-            android:layout_height="60dp" />
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:text="Record\nfor:"
+            android:id="@+id/setRecPrompt1"
+            android:layout_centerVertical="true"
+            android:layout_alignParentStart="true"
+            android:paddingLeft="10dp"
+            android:textAlignment="center"/>
 
         <Button android:id="@+id/setRecTime"
-            style="?android:attr/buttonStyleSmall"
+            style="?android:attr/buttonStyle"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:text="set"
+            android:onClick="setMaxRec"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:paddingRight="10dp"/>
+
+        <LinearLayout android:id="@+id/sliders"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="set"
-            android:onClick="setMaxRec"/>
+            android:layout_centerHorizontal="true">
 
-    </LinearLayout>
+            <NumberPicker android:id="@+id/hrsSlide"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:padding="7dp"
+                />
 
-    <ProgressBar android:id="@+id/fakeBar"
+            <NumberPicker android:id="@+id/minSlide"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:padding="7dp"
+                />
+
+            <NumberPicker android:id="@+id/secSlide"
+                android:layout_width="60dp"
+                android:layout_height="80dp"
+                android:padding="7dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/sliderLabels"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_centerHorizontal="true"
+            android:layout_below="@+id/sliders">
+
+            <TextView android:id="@+id/hr_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="hrs"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+            <TextView android:id="@+id/min_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="min"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+            <TextView android:id="@+id/sec_lable"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="sec"
+                android:layout_weight="1"
+                android:textAlignment="center"/>
+
+        </LinearLayout>
+
+    </RelativeLayout>
+
+    <ProgressBar android:id="@+id/border2"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-
-
         android:layout_marginRight="10dp"
         android:layout_marginLeft="10dp"
-
         android:layout_below="@+id/sliderBar"
         android:layout_centerHorizontal="true" />
 
+    <TextView android:id="@+id/recordingCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="00:00:00"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="44dp" />
 
+
+    <!-- The following should be inert for recording_layout.XML... -->
+    <ProgressBar
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/progressBar"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginRight="30dp"
+        android:layout_marginLeft="30dp"
+        android:layout_marginBottom="45dp"
+        />
+
+    <LinearLayout android:id="@+id/playBackButtons"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_alignParentBottom="true"
+        >
+
+        <ImageButton android:id="@+id/playButt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/play_white"
+            android:onClick="playActions"
+            android:background="#00000000"
+            android:layout_weight="2"/>
+
+        <ImageButton android:id="@+id/bckButt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/bck_white"
+            android:background="#00000000"
+            android:onClick="seekBck"
+            android:layout_weight="1"/>
+
+        <ImageButton android:id="@+id/fwdButt"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/fwd_white"
+            android:onClick="seekFwd"
+            android:background="#00000000"
+            android:layout_weight="2"/>
+
+
+
+
+    </LinearLayout>
+
+<!--
+    <ImageButton android:id="@+id/playButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/play_white"
+        android:layout_alignParentBottom="true"
+        android:layout_toLeftOf="@+id/bckButt"
+        android:layout_toStartOf="@+id/bckButt"
+        android:layout_marginRight="55dp"
+        android:layout_marginEnd="55dp"
+        android:onClick="playActions"
+        android:background="#00000000" />
+
+    <ImageButton android:id="@+id/bckButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/bck_white"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignBottom="@+id/progressBar"
+        android:background="#00000000"
+        android:onClick="seekBck"/>
+
+    <ImageButton android:id="@+id/fwdButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/fwd_white"
+        android:layout_alignParentBottom="true"
+        android:layout_toRightOf="@+id/bckButt"
+        android:layout_toEndOf="@+id/bckButt"
+        android:layout_marginLeft="55dp"
+        android:layout_marginStart="55dp"
+        android:onClick="seekFwd"
+        android:background="#00000000" />
+
+-->
 
 </RelativeLayout>
