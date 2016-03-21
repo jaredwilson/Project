@@ -6,7 +6,8 @@
     android:paddingBottom="@dimen/activity_vertical_margin"
 
     android:paddingTop="@dimen/activity_vertical_margin"
-    tools:context=".Recording">
+    tools:context=".Recording"
+    android:background="#000000">
 
     <!-- no onCLick event handler for this button-->
     <!-- BUT, this should look like it has emphasis-->
@@ -19,7 +20,7 @@
         android:layout_toStartOf="@+id/folderTab"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        />
+        android:background="#00000000" />
 
     <ImageButton android:id="@+id/folderTab"
         android:layout_width="wrap_content"
@@ -27,7 +28,8 @@
         android:src="@drawable/folder_white"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
-        android:onClick="filesTabPress"/>
+        android:onClick="filesTabPress"
+        android:background="#00000000" />
 
     <!-- add onCLick event handler for this button later...-->
     <ImageButton android:id="@+id/editTab"
@@ -39,7 +41,8 @@
         android:layout_toEndOf="@+id/folderTab"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:onClick="editTabPress"/>
+        android:onClick="editTabPress"
+        android:background="#00000000" />
 
     <!-- add onCLick event handler for this button later...-->
     <!-- ex: modal says "set recording time:" w/ spinners and OK/CANCEL-->
@@ -61,7 +64,8 @@
         android:src="@drawable/rec_03copy"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="onRecord"/>
+        android:onClick="onRecord"
+        android:background="#00000000" />
 
     <!-- FOR TESTING
     <EditText
@@ -95,7 +99,8 @@
         android:layout_toStartOf="@+id/bckButt"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        android:onClick="onPlay"/>
+        android:onClick="onPlay"
+        android:background="#00000000" />
     <ImageButton android:id="@+id/bckButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -103,6 +108,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@id/progressBar"
+        android:background="#00000000" />
         android:onClick="seekBck"/>
     <ImageButton android:id="@+id/fwdButt"
         android:layout_width="wrap_content"
@@ -114,6 +120,7 @@
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
         android:onClick="seekFwd"/>
+        android:background="#00000000" />
 
     <Button
         style="?android:attr/buttonStyleSmall"
@@ -124,7 +131,7 @@
         android:layout_below="@+id/recButt"
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
-        android:onClick="run" />
+        android:onClick="livePlayActions" />
 
     <!-- for testing...
     <TextView android:id="@+id/fsContent"

@@ -83,6 +83,11 @@ public class PlayActions {
         mPlayer.release();
         mPlayer = null;
     }
+    public void stop(){
+        if(isPlaying) {
+            stopPlaying();
+        }
+    }
 
     public void setSongPath(String s) { songPath = s; }
 

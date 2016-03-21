@@ -38,18 +38,16 @@ public class Recording extends AppCompatActivity  {
     public int progressInSeconds;
     //stuff
     public boolean isRecording;
-    public boolean isPlaying;
-    public boolean canPlay;
-    //private MediaPlayer player = null;
     private MediaRecorder recorder = null;
     private final PlayActions player = PlayActions.getInstance();
+    private final LivePlayActions livePlayer = LivePlayActions.getInstance();
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
         isRecording = false;
-        isPlaying = false;
         rCount = 1;
         catchIntent();
         black_outStatusBar();
@@ -96,9 +94,6 @@ public class Recording extends AppCompatActivity  {
 
     // RECORDING STUFF***********************************************************
     public void onRecord(View v) {
-        /*if (isPlaying) {
-            stopPlaying();
-        }*/
         if (!isRecording) {
             startRecording();
 
@@ -109,11 +104,6 @@ public class Recording extends AppCompatActivity  {
 
 
     }
-
-    /*
-    Calendar c = Calendar.getInstance();
-    int seconds = c.get(Calendar.SECOND);
-     */
 
     private void startRecording() {
         filename = this.getFilesDir().getPath() + "/" + Calendar.getInstance().getTime().toString().replaceAll(":", "_");
@@ -146,7 +136,6 @@ public class Recording extends AppCompatActivity  {
             final EditText input = new EditText(this);
             builder.setView(input);
 
-
             builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -159,17 +148,13 @@ public class Recording extends AppCompatActivity  {
                     dialog.cancel();
                 }
             });
-
             builder.show();
         }
     }
 
-    private void rename(String stringInput) {
-        String newFilename = stringInput;
-        File file = new File(filename);
-
+    private void rename(String newFilename) {
         // rename file to new path
-        file.renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
+        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
     }
 
     // PLAYING STUFF***********************************************************
@@ -178,6 +163,12 @@ public class Recording extends AppCompatActivity  {
             player.setSongPath(filename);
         }
         player.play_actions(view);
+    }
+    public void livePlayActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.stop();
+        }
+        livePlayer.play_actions(view);
     }
 
     public void seekFwd(View view) {
@@ -215,6 +206,5 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
-
-
 }
+

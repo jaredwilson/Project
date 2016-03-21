@@ -4,7 +4,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
 
-    tools:context=".Homeboy">
+    tools:context=".Homeboy"
+    android:background="#000000">
 
     <!-- add onCLick event handler for this button later...-->
     <ImageButton android:id="@+id/titleImage"

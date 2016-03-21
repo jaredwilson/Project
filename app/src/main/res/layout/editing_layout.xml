@@ -6,7 +6,8 @@ android:layout_height="match_parent"
 android:paddingBottom="@dimen/activity_vertical_margin"
 
 android:paddingTop="@dimen/activity_vertical_margin"
-tools:context=".Editing">
+tools:context=".Editing"
+    android:background="#000000">
 
 <ImageButton android:id="@+id/recordTab"
     android:layout_width="wrap_content"
@@ -44,17 +45,7 @@ tools:context=".Editing">
     android:layout_marginStart="55dp"/>
 
 
-<TextView android:id="@+id/fsContent"
-    android:text="Editing..."
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:textAppearance="?android:attr/textAppearanceLarge"
-    android:textSize="40sp"
-    android:layout_centerVertical="true"
-    android:layout_centerHorizontal="true"
-    />
-
-<!-- the following will be active with event listeners-->
+    <!-- the following will be active with event listeners-->
 <ProgressBar
     style="?android:attr/progressBarStyleHorizontal"
     android:layout_width="match_parent"
@@ -104,9 +95,9 @@ tools:context=".Editing">
         android:text="Rename"
         android:background="#00000000"
         android:id="@+id/button"
-        android:layout_above="@+id/fsContent"
         android:layout_alignEnd="@+id/bckButt"
-        android:onClick="renameFile" />
+        android:onClick="renameFile"
+        android:layout_centerVertical="true" />
 
     <Button
         android:layout_width="wrap_content"
@@ -114,9 +105,9 @@ tools:context=".Editing">
         android:text="Delete"
         android:background="#00000000"
         android:id="@+id/deleteFile"
-        android:layout_above="@+id/fsContent"
         android:layout_alignEnd="@+id/editTab"
-        android:onClick="deleteFile" />
+        android:onClick="deleteFile"
+        android:layout_centerVertical="true" />
 
 
 </RelativeLayout>

@@ -31,7 +31,6 @@ public class Editing extends AppCompatActivity {
     public boolean fileExists;
     public int progressInSeconds;
     private final PlayActions player = PlayActions.getInstance();
-    public String newFilename;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -88,14 +87,11 @@ public class Editing extends AppCompatActivity {
     public void pressRW() {}
 
     private void rename(String stringInput) {
-        newFilename = stringInput;
-        File file = new File(filename);
-
         // rename file to new path
-        file.renameTo(new File(path + "/" + newFilename));
-
-        new ChangeTabs().execute("Files", ",", this);
-
+        (new File(filename)).renameTo(new File(path + "/" + stringInput));
+        filename = path + "/" + stringInput;
+        progress = "0";
+        new ChangeTabs().execute("Files",(filename + "," + progress),this);
     }
 
     public void renameFile(View v) {
