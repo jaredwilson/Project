@@ -103,7 +103,7 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@id/progressBar"
-        />
+        android:onClick="seekBck"/>
     <ImageButton android:id="@+id/fwdButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -113,7 +113,7 @@
         android:layout_toEndOf="@+id/bckButt"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        />
+        android:onClick="seekFwd"/>
 
     <Button
         style="?android:attr/buttonStyleSmall"

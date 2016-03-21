@@ -103,14 +103,14 @@ public class Files extends AppCompatActivity  {
         filename = this.getFilesDir().getPath()+ "/" + ((TextView)(view).findViewById(R.id.firstLine)).getText().toString();
         progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
-        tv.setText(((TextView)(view).findViewById(R.id.firstLine)).getText().toString());
+        tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
         Log.i("Str", "path: " + this.getFilesDir().getPath());
     }
 
     // functions for Navigation
     public void filesTabPress(View v) {/* we're there already, so do nothing */}
     public void recordingTabPress(View v) {
-        new ChangeTabs().execute("Recording",(filename + "," + progress),this);
+        new ChangeTabs().execute("Recording", (filename + "," + progress), this);
     }
     public void editTabPress(View v) {
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
@@ -121,6 +121,22 @@ public class Files extends AppCompatActivity  {
             player.setSongPath(filename);
         }
         player.play_actions(view);
+    }
+
+    public void seekFwd(View view) {
+        // indicate some kind of visual emphasis
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
+        }
+        player.seekFwd();
+    }
+
+    public void seekBck(View view) {
+        // indicate some kind of visual emphasis
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
+        }
+        player.seekBck();
     }
 }
 

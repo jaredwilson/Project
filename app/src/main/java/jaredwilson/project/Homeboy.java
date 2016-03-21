@@ -20,7 +20,7 @@ public class Homeboy extends AppCompatActivity {
         setContentView(R.layout.homeboy_layout);
         black_outStatusBar();
         // create a function that waits 2 second, then runs onClick() automatically.
-        new Handler().postDelayed(new Runnable() {public void run() { move_on(); }}, 4000);
+        new Handler().postDelayed(new Runnable() {public void run() { move_on(); }}, 1500);
     }
     private void black_outStatusBar() {
         // change color of status bar to black
@@ -29,6 +29,6 @@ public class Homeboy extends AppCompatActivity {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
     }
-    public void onClick(View v) { move_on(); }
+
     public void move_on() { new ChangeTabs().execute("Recording", message, this); }
 }

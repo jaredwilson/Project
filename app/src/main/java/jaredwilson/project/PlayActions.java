@@ -37,6 +37,33 @@ public class PlayActions {
         }
         isPlaying = !isPlaying;
     }
+
+    public void seekBck() {
+        int duration =mPlayer.getDuration();
+        int currentPosition = mPlayer.getCurrentPosition();
+        int skipAmmount =duration / 10;
+
+        if(duration == -1) { return; }
+
+        if (currentPosition - skipAmmount < 0)
+            mPlayer.seekTo(0);
+        else
+            mPlayer.seekTo(currentPosition - skipAmmount);
+    }
+
+    public void seekFwd() {
+        int duration =mPlayer.getDuration();
+        int currentPosition = mPlayer.getCurrentPosition();
+        int skipAmmount =duration / 10;
+
+        if(duration == -1) { return; }
+
+        if (currentPosition + skipAmmount > duration)
+            mPlayer.seekTo(duration);
+        else
+            mPlayer.seekTo(currentPosition + skipAmmount);
+    }
+
     private void startPlaying() {
         mPlayer = new MediaPlayer();
         try {

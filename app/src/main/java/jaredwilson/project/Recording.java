@@ -40,8 +40,9 @@ public class Recording extends AppCompatActivity  {
     public boolean isRecording;
     public boolean isPlaying;
     public boolean canPlay;
-    private MediaPlayer player = null;
+    //private MediaPlayer player = null;
     private MediaRecorder recorder = null;
+    private final PlayActions player = PlayActions.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class Recording extends AppCompatActivity  {
         catchIntent();
         black_outStatusBar();
     }
-
     private void black_outStatusBar() {
         // change color of status bar to black
         Window window = this.getWindow();
@@ -61,7 +61,6 @@ public class Recording extends AppCompatActivity  {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
     }
-
     public void catchIntent() {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
@@ -87,19 +86,19 @@ public class Recording extends AppCompatActivity  {
         for(String fn : this.getFilesDir().list()) {
             Log.i("FileName",fn);
         }
-        releaseResources();
+
         new ChangeTabs().execute("Files", (filename + "," + progress), this);
     }
     public void editTabPress(View v) {
-        releaseResources();
+
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
     }
 
     // RECORDING STUFF***********************************************************
     public void onRecord(View v) {
-        if (isPlaying) {
+        /*if (isPlaying) {
             stopPlaying();
-        }
+        }*/
         if (!isRecording) {
             startRecording();
 
@@ -174,50 +173,29 @@ public class Recording extends AppCompatActivity  {
     }
 
     // PLAYING STUFF***********************************************************
-    public void onPlay(View v) {
-        if (!isPlaying && last_saved_filename != null) {
-            startPlaying();
-        } else if (isPlaying && last_saved_filename != null){
-            stopPlaying();
+    public void playActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
         }
-        else {
-            // grey out play
-        }
+        player.play_actions(view);
     }
 
-
-
-    private void startPlaying() {
-            player = new MediaPlayer();
-            try {
-                player.setDataSource(filename + rCount);
-                player.prepare();
-                player.start();
-                isPlaying = true;
-                ((ImageButton)findViewById(R.id.playButt)).setImageResource(R.drawable.pause_white);
-            } catch (Exception e) { }
-    }
-
-    private void stopPlaying() {
-        player.release();
-        isPlaying = false;
-        player = null;
-    }
-
-
-    // UBIQUITOUS STUFF***********************************************************
-    private void releaseResources() {
-        super.onPause();
-        if (recorder != null) {
-            recorder.release();
-            recorder = null;
+    public void seekFwd(View view) {
+        // indicate some kind of visual emphasis
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
         }
-
-        if (player != null) {
-            player.release();
-            player = null;
-        }
+        player.seekFwd();
     }
+
+    public void seekBck(View view) {
+        // indicate some kind of visual emphasis
+        if(!player.getIsPlaying()) {
+            player.setSongPath(filename);
+        }
+        player.seekBck();
+    }
+
 
     // Experimental stuff
     static final int bufferSize = 20000;
@@ -240,21 +218,3 @@ public class Recording extends AppCompatActivity  {
 
 
 }
-
-
-
-
-
-
-
-
-
-
-/*
-    // functions for PlaybackModule
-    public void pressPlay() {}
-
-    public void pressFF() {}
-
-    public void pressRW() {}
-*/
