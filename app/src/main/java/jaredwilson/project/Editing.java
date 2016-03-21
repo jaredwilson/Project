@@ -27,8 +27,7 @@ public class Editing extends AppCompatActivity {
     public final static String key = "key";
     public String filename;
     public String progress;
-    public String path;
-    public boolean fileExists;
+
     public int progressInSeconds;
     private final PlayActions player = PlayActions.getInstance();
 
@@ -47,14 +46,12 @@ public class Editing extends AppCompatActivity {
             // there's no file, so a recording will require creating a new file.
             filename = "";
             progress = "";
-            fileExists = false;
 
         } else {
             filename = (message.split(","))[0];
             progress = (message.split(","))[1];
-            fileExists = true;
             progressInSeconds = Integer.parseInt(progress);
-            path = this.getFilesDir().getPath();
+
 
             try {
                 // prepare the audio file for playing
@@ -86,69 +83,7 @@ public class Editing extends AppCompatActivity {
 
     public void pressRW() {}
 
-    private void rename(String stringInput) {
-        // rename file to new path
-        (new File(filename)).renameTo(new File(path + "/" + stringInput));
-        filename = path + "/" + stringInput;
-        progress = "0";
-        new ChangeTabs().execute("Files",(filename + "," + progress),this);
-    }
 
-    public void renameFile(View v) {
-
-        if(fileExists) {
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Enter new name");
-
-            final EditText input = new EditText(this);
-            builder.setView(input);
-
-
-            builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    rename(input.getText().toString());
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-
-            builder.show();
-        }
-
-    }
-
-    private void delete () {
-        File file = new File(filename);
-        try {
-            file.getCanonicalFile().delete();
-            new ChangeTabs().execute("Files", ",", this);
-
-        } catch (IOException e) {
-            Log.e("Delete Error", "Could not delete, " + e);
-        }
-    }
-
-    public void deleteFile (View v) {
-        if (fileExists) {
-            new AlertDialog.Builder(this)
-                    .setIcon(android.R.drawable.ic_dialog_alert)
-                    .setTitle("Delete File")
-                    .setMessage("Are you sure you wish to delete " + filename + "?")
-                    .setPositiveButton("Delete", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            delete();
-                        }
-                    })
-                    .setNegativeButton("Cancel", null)
-                    .show();
-        }
-    }
     // functions for Navigation
     public void editTabPress(View v) {/* we're there already, so do nothing */}
 
