@@ -42,7 +42,7 @@ public class Recording extends AppCompatActivity  {
     public int progressInSeconds;
     public int recPresetMins;
     public int recPresetSecs;
-
+    public String pomoStatus = "ON";
     //stuff
     public boolean isRecording;
     private MediaRecorder recorder = null;
@@ -77,7 +77,7 @@ public class Recording extends AppCompatActivity  {
 
         mins.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
             @Override
-            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
                 recPresetMins = 60 * newVal;
             }
         });
@@ -228,7 +228,7 @@ public class Recording extends AppCompatActivity  {
         ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
         //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
         //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
-        ((LinearLayout) findViewById(R.id.pocketBar)).setVisibility(View.GONE);
+        //((LinearLayout) findViewById(R.id.pocketBar)).setVisibility(View.GONE);
         switch (focus) {
             case "sliderBar":
                 ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
@@ -245,29 +245,44 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
+    public boolean sliderBarOpen = false;
     public void onClick_timer (View v) {
-        // make the slideBar visible
-        setToolBarFocus("sliderBar");
-
+        if (sliderBarOpen) {
+            ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        } else {
+            ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+        }
+        sliderBarOpen = !sliderBarOpen;
+    }
+    public void setMaxRec(View v) {
+        recorder.setMaxDuration(1000 * (recPresetMins * 60 + recPresetSecs));
     }
 
     public void onClick_saveRec (View v) {
-        Toast.makeText(getApplicationContext(), "recording saved",
-                Toast.LENGTH_SHORT).show();
-        //setToolBarFocus("sliderBar");
+        if ((new File(filename)).exists()) {
+            Toast.makeText(getApplicationContext(), "recording saved", Toast.LENGTH_SHORT).show();
+        }
     }
 
     public void onClick_delRec (View v) {
-        Toast.makeText(getApplicationContext(), "recording deleted",
-                Toast.LENGTH_SHORT).show();
-        //setToolBarFocus("sliderBar");
+        if ((new File(filename)).delete()) {
+            Toast.makeText(getApplicationContext(), "recording deleted", Toast.LENGTH_SHORT).show();
+        }
     }
 
+    // this doesn't actually work...
+    public boolean pomo = true;
     public void onClick_pocketMode (View v) {
-        /*
-        Toast.makeText(getApplicationContext(), "pocket mode: ON",
-                Toast.LENGTH_SHORT).show();*/
-        setToolBarFocus("pocketBar");
+        if (!pomo) {
+            pomoStatus = "ON";
+            ((ImageButton)v).setImageResource(R.drawable.pocket_large_phone);
+        } else {
+            pomoStatus = "OFF";
+            ((ImageButton)v).setImageResource(R.drawable.pocket_large);
+        }
+        pomo = !pomo;
+        Toast.makeText(getApplicationContext(), "Pocket Mode is " + pomoStatus + "\nPocket Mode lets you record with the screen off." ,
+                Toast.LENGTH_LONG).show();
 
     }
 
