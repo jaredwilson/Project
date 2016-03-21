@@ -36,8 +36,6 @@ public class Files extends AppCompatActivity  {
         catchIntent();
         black_outStatusBar();
 
-
-
         mcaa = new MyCustomArrayAdapter(this, this.getFilesDir().listFiles(), this.getFilesDir());
         ListView lv = (ListView)findViewById(R.id.listView);
         lv.setAdapter(mcaa);
@@ -47,23 +45,8 @@ public class Files extends AppCompatActivity  {
                 listClickActions(view);
             }
         });
-/*
-        listOfFileNames = new ArrayList<>();
-        String[] listOfFN = this.getFilesDir().list();
-        for(String str : listOfFN) {
-            listOfFileNames.add(str);
-        }
-        fileAdapter = new ArrayAdapter<>(getBaseContext(), android.R.layout.simple_list_item_1, listOfFileNames);
-        ListView lv = (ListView)findViewById(R.id.listView);
-        lv.setAdapter(fileAdapter);
-        lv.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                listClickActions(view);
-            }
-        });
-        */
     }
+
     private void black_outStatusBar() {
         // change color of status bar to black
         Window window = this.getWindow();
@@ -97,9 +80,6 @@ public class Files extends AppCompatActivity  {
     }
 
     private void listClickActions(View view) {
-        //
-        // Holy moly this was ridiculous!
-        //
         filename = this.getFilesDir().getPath()+ "/" + ((TextView)(view).findViewById(R.id.firstLine)).getText().toString();
         progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
@@ -123,7 +103,7 @@ public class Files extends AppCompatActivity  {
         player.play_actions(view);
     }
 
-    public void seekFwd(View view) {
+    public void seekForward(View view) {
         // indicate some kind of visual emphasis
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);
@@ -131,7 +111,7 @@ public class Files extends AppCompatActivity  {
         player.seekFwd();
     }
 
-    public void seekBck(View view) {
+    public void seekBack(View view) {
         // indicate some kind of visual emphasis
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);

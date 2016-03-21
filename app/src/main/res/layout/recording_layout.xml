@@ -99,7 +99,7 @@
         android:layout_toStartOf="@+id/bckButt"
         android:layout_marginRight="55dp"
         android:layout_marginEnd="55dp"
-        android:onClick="onPlay"
+        android:onClick="playActions"
         android:background="#00000000" />
     <ImageButton android:id="@+id/bckButt"
         android:layout_width="wrap_content"
@@ -119,29 +119,31 @@
         android:layout_toEndOf="@+id/bckButt"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:onClick="seekFwd"/>
+        android:onClick="seekFwd"
+        android:background="#000000" />
         android:background="#00000000" />
 
-    <Button
-        style="?android:attr/buttonStyleSmall"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="liveVoice"
-        android:id="@+id/testButton"
-        android:layout_below="@+id/recButt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginTop="53dp"
-        android:onClick="livePlayActions" />
-
     <!-- for testing...
-    <TextView android:id="@+id/fsContent"
-        android:text="Recording..."
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40sp"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
-        />
-      -->
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="liveVoice"
+            android:id="@+id/testButton"
+            android:layout_below="@+id/recButt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="53dp"
+            android:onClick="livePlayActions" />
+
+
+        <TextView android:id="@+id/fsContent"
+            android:text="Recording..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="40sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+          -->
 </RelativeLayout>

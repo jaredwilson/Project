@@ -25,10 +25,9 @@ public class LivePlayActions {
     private AudioRecord arec;
     private AudioTrack atrack;
     private boolean isLivePlaying;
-    byte[] buffer = new byte[buffersize];
 
     public void play_actions(View view) {
-        button = (Button)view.findViewById(R.id.testButton);
+        //button = (Button)view.findViewById(R.id.testButton);
         if (!isLivePlaying) {
             isLivePlaying = true;
             startLivePlaying();
@@ -41,7 +40,6 @@ public class LivePlayActions {
     }
 
     private void startLivePlaying() {
-        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
         buffersize = AudioRecord.getMinBufferSize(11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
         arec = new AudioRecord(MediaRecorder.AudioSource.MIC, 11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize);
         atrack = new AudioTrack(AudioManager.STREAM_MUSIC, 11025, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize, AudioTrack.MODE_STREAM);
@@ -52,15 +50,17 @@ public class LivePlayActions {
         new Thread(new Runnable() {
             @Override
             public void run() {
+                android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_AUDIO);
                 boolean shouldContinue = true;
+                byte[] buffer = new byte[buffersize];
                 while (shouldContinue) {
-                    Log.i("Status","actually recording");
                     arec.read(buffer, 0, buffersize);
                     atrack.write(buffer, 0, buffer.length);
                     shouldContinue = isLivePlaying;
                 }
             }
-        });
+        }).start();
+
         arec.stop();
         arec.release();
         atrack.stop();
