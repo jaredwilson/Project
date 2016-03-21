@@ -7,7 +7,8 @@
 
     android:paddingTop="@dimen/activity_vertical_margin"
     tools:context=".Recording"
-    android:background="#000000">
+    android:background="#000000"
+    android:focusableInTouchMode="false">
 
     <!-- no onCLick event handler for this button-->
     <!-- BUT, this should look like it has emphasis-->
@@ -25,7 +26,7 @@
     <ImageButton android:id="@+id/folderTab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/folder_white"
+        android:src="@drawable/folder_gry"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="filesTabPress"
@@ -35,7 +36,7 @@
     <ImageButton android:id="@+id/editTab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/tools_white"
+        android:src="@drawable/tools_gry"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/folderTab"
         android:layout_toEndOf="@+id/folderTab"
@@ -45,16 +46,18 @@
         android:background="#00000000" />
 
     <!-- add onCLick event handler for this button later...-->
-    <!-- ex: modal says "set recording time:" w/ spinners and OK/CANCEL-->
-    <TextView android:id="@+id/recTime"
+    <!-- ex: modal says "set recording time:" w/ spinners and OK/CANCEL
+    TextView android:id="@+id/recTime"
         android:text="@string/rec_time"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
         android:textSize="40sp"
+        android:onClick="seekFwd"
+        android:layout_marginTop="40dp"
         android:layout_above="@+id/recButt"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="40dp" />
+        android:layout_centerHorizontal="true" />
+    -->
 
     <!-- add onCLick event handler for this button later...-->
     <!-- This will start a thread...?-->
@@ -62,10 +65,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/rec_03copy"
-        android:layout_centerVertical="true"
-        android:layout_centerHorizontal="true"
         android:onClick="onRecord"
-        android:background="#00000000" />
+        android:background="#00000000"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="78dp" />
 
     <!-- FOR TESTING
     <EditText
@@ -90,6 +94,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="45dp"
         />
+
     <ImageButton android:id="@+id/playButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -101,6 +106,7 @@
         android:layout_marginEnd="55dp"
         android:onClick="onPlay"
         android:background="#00000000" />
+
     <ImageButton android:id="@+id/bckButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -108,8 +114,9 @@
         android:layout_alignParentBottom="true"
         android:layout_centerHorizontal="true"
         android:layout_alignBottom="@id/progressBar"
-        android:background="#00000000" />
+        android:background="#00000000"
         android:onClick="seekBck"/>
+
     <ImageButton android:id="@+id/fwdButt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -119,9 +126,10 @@
         android:layout_toEndOf="@+id/bckButt"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:onClick="seekFwd"/>
+        android:onClick="seekFwd"
         android:background="#00000000" />
 
+<!-- THIS IS FOR 264, BUT NOT 371
     <Button
         style="?android:attr/buttonStyleSmall"
         android:layout_width="wrap_content"
@@ -132,16 +140,128 @@
         android:layout_centerHorizontal="true"
         android:layout_marginTop="53dp"
         android:onClick="livePlayActions" />
-
-    <!-- for testing...
-    <TextView android:id="@+id/fsContent"
-        android:text="Recording..."
-        android:layout_width="wrap_content"
+-->
+    <LinearLayout android:id="@+id/toolBar"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceLarge"
-        android:textSize="40sp"
-        android:layout_centerVertical="true"
+        android:orientation="horizontal"
+        android:layout_below="@+id/folderTab"
         android:layout_centerHorizontal="true"
-        />
-      -->
+        android:paddingTop="12dp"
+
+        >
+
+        <ImageButton android:id="@+id/hourglass"
+            android:src="@drawable/hourglass"
+            android:background="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:onClick="onClick_timer"/>
+
+        <ImageButton android:id="@+id/saveRec"
+            android:src="@drawable/save_white"
+            android:background="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="2"
+            android:layout_gravity="center"
+            android:onClick="onClick_saveRec"/>
+
+        <ImageButton android:id="@+id/delRec"
+            android:src="@drawable/trash_white"
+            android:background="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:onClick="onClick_delRec"/>
+
+        <ImageButton android:id="@+id/pocketMode"
+            android:src="@drawable/pocket_large"
+            android:background="#000000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_weight="2"
+            android:onClick="onClick_pocketMode"/>
+
+
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/sliderBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Small Text"
+            android:id="@+id/setRecTime" />
+
+        <NumberPicker android:id="@+id/minuteSlider"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp" />
+
+        <NumberPicker android:id="@+id/secondSlider"
+            android:layout_width="wrap_content"
+            android:layout_height="60dp" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="New Button"
+            android:id="@+id/button2" />
+
+    </LinearLayout>
+
+    <LinearLayout android:id="@+id/pocketBar"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="12dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceSmall"
+            android:text="Pocket Mode enables your phone to record \nwith the screen off."
+            android:id="@+id/pocketModeDesc" />
+
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="set"
+            android:id="@+id/setPocket" />
+
+    </LinearLayout>
+
+
+    <ProgressBar android:id="@+id/fakeBar"
+        style="?android:attr/progressBarStyleHorizontal"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+
+        android:layout_below="@+id/sliderBar"
+        android:layout_centerHorizontal="true" />
+
+
+
 </RelativeLayout>

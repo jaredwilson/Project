@@ -28,7 +28,7 @@ public class LivePlayActions {
     byte[] buffer = new byte[buffersize];
 
     public void play_actions(View view) {
-        button = (Button)view.findViewById(R.id.testButton);
+        //button = (Button)view.findViewById(R.id.testButton);
         if (!isLivePlaying) {
             isLivePlaying = true;
             startLivePlaying();

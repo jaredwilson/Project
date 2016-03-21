@@ -19,8 +19,12 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.io.File;
 import java.text.SimpleDateFormat;
@@ -36,6 +40,9 @@ public class Recording extends AppCompatActivity  {
     public String progress;
     public int rCount;
     public int progressInSeconds;
+    public int recPresetMins;
+    public int recPresetSecs;
+
     //stuff
     public boolean isRecording;
     private MediaRecorder recorder = null;
@@ -51,6 +58,36 @@ public class Recording extends AppCompatActivity  {
         rCount = 1;
         catchIntent();
         black_outStatusBar();
+        setupSpinners();
+    }
+
+    private void setupSpinners () {
+        NumberPicker mins = (NumberPicker) findViewById(R.id.minuteSlider);
+        NumberPicker secs = (NumberPicker) findViewById(R.id.secondSlider);
+
+        mins.setMinValue(0);
+        secs.setMinValue(0);
+
+        mins.setMaxValue(59);
+        secs.setMaxValue(59);
+
+
+        mins.setWrapSelectorWheel(true);
+        secs.setWrapSelectorWheel(true);
+
+        mins.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal){
+                recPresetMins = 60 * newVal;
+            }
+        });
+
+        secs.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                recPresetSecs = newVal;
+            }
+        });
     }
     private void black_outStatusBar() {
         // change color of status bar to black
@@ -77,6 +114,11 @@ public class Recording extends AppCompatActivity  {
             progress = (message.split(","))[1];
             progressInSeconds = Integer.parseInt(progress);
         }*/
+    }
+
+    private void rename(String newFilename) {
+        // rename file to new path
+        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
     }
 
     // functions for Navigation
@@ -122,14 +164,16 @@ public class Recording extends AppCompatActivity  {
     }
 
     private void endRecording() {
-        if (recorder != null) {
+        if (recorder == null) {return;}
             recorder.stop();
             recorder.release();
             recorder = null;
             ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
-            last_saved_filename = filename + rCount;
-            rCount++;
 
+
+
+
+/*
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter new name");
 
@@ -149,13 +193,10 @@ public class Recording extends AppCompatActivity  {
                 }
             });
             builder.show();
-        }
+            */
     }
 
-    private void rename(String newFilename) {
-        // rename file to new path
-        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
-    }
+
 
     // PLAYING STUFF***********************************************************
     public void playActions(View view) {
@@ -163,12 +204,6 @@ public class Recording extends AppCompatActivity  {
             player.setSongPath(filename);
         }
         player.play_actions(view);
-    }
-    public void livePlayActions(View view) {
-        if(!player.getIsPlaying()) {
-            player.stop();
-        }
-        livePlayer.play_actions(view);
     }
 
     public void seekFwd(View view) {
@@ -187,7 +222,89 @@ public class Recording extends AppCompatActivity  {
         player.seekBck();
     }
 
+    // TOOL BAR STUFF***********************************************************
 
+    private void setToolBarFocus(String focus) {
+        ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        ((LinearLayout) findViewById(R.id.pocketBar)).setVisibility(View.GONE);
+        switch (focus) {
+            case "sliderBar":
+                ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+                break;
+            case "saveBar":
+                //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+                break;
+            case "deleteBar":
+                //((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+                break;
+            case "pocketBar":
+                ((LinearLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+                break;
+        }
+    }
+
+    public void onClick_timer (View v) {
+        // make the slideBar visible
+        setToolBarFocus("sliderBar");
+
+    }
+
+    public void onClick_saveRec (View v) {
+        Toast.makeText(getApplicationContext(), "recording saved",
+                Toast.LENGTH_SHORT).show();
+        //setToolBarFocus("sliderBar");
+    }
+
+    public void onClick_delRec (View v) {
+        Toast.makeText(getApplicationContext(), "recording deleted",
+                Toast.LENGTH_SHORT).show();
+        //setToolBarFocus("sliderBar");
+    }
+
+    public void onClick_pocketMode (View v) {
+        /*
+        Toast.makeText(getApplicationContext(), "pocket mode: ON",
+                Toast.LENGTH_SHORT).show();*/
+        setToolBarFocus("pocketBar");
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
     // Experimental stuff
     static final int bufferSize = 20000;
     public void run(View view) {
@@ -206,5 +323,11 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
-}
 
+    public void livePlayActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.stop();
+        }
+        livePlayer.play_actions(view);
+    }
+*/
