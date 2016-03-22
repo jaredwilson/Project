@@ -141,9 +141,9 @@ public class Recording extends AppCompatActivity  {
         for(String fn : this.getFilesDir().list()) {
             Log.i("FileName",fn);
         }
-
         new ChangeTabs().execute("Files", (filename + "," + progress), this);
     }
+
     public void editTabPress(View v) {
 
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
