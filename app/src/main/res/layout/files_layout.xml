@@ -76,7 +76,7 @@ tools:context=".Files"
     android:layout_alignParentBottom="true"
     android:layout_centerHorizontal="true"
     android:layout_alignBottom="@+id/progressBar"
-    />
+    android:onClick="seekBack" />
 <ImageButton android:id="@+id/fwdButt"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
@@ -87,7 +87,7 @@ tools:context=".Files"
     android:layout_toEndOf="@+id/bckButt"
     android:layout_marginLeft="55dp"
     android:layout_marginStart="55dp"
-    />
+    android:onClick="seekForward" />
 
     <ListView android:id="@+id/listView"
         android:layout_width="wrap_content"

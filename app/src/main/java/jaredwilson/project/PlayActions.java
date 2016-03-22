@@ -41,7 +41,7 @@ public class PlayActions {
     public void seekBck() {
         int duration =mPlayer.getDuration();
         int currentPosition = mPlayer.getCurrentPosition();
-        int skipAmmount =duration / 10;
+        int skipAmmount = duration / 5;
 
         if(duration == -1) { return; }
 
@@ -54,7 +54,7 @@ public class PlayActions {
     public void seekFwd() {
         int duration =mPlayer.getDuration();
         int currentPosition = mPlayer.getCurrentPosition();
-        int skipAmmount =duration / 10;
+        int skipAmmount =duration / 5;
 
         if(duration == -1) { return; }
 

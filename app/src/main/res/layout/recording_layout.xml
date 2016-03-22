@@ -337,9 +337,32 @@
         android:layout_toEndOf="@+id/bckButt"
         android:layout_marginLeft="55dp"
         android:layout_marginStart="55dp"
-        android:onClick="seekFwd"
+        android:onClick="seekFwd"/>
         android:background="#00000000" />
 
+    <!-- for testing...
+        <Button
+            style="?android:attr/buttonStyleSmall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="liveVoice"
+            android:id="@+id/testButton"
+            android:layout_below="@+id/recButt"
+            android:layout_centerHorizontal="true"
+            android:layout_marginTop="53dp"
+            android:onClick="livePlayActions" />
+
+
+        <TextView android:id="@+id/fsContent"
+            android:text="Recording..."
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="40sp"
+            android:layout_centerVertical="true"
+            android:layout_centerHorizontal="true"
+            />
+          -->
 -->
 
 </RelativeLayout>

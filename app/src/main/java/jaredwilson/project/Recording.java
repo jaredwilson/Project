@@ -368,7 +368,6 @@ public class Recording extends AppCompatActivity  {
 
 /*
     // Experimental stuff
-    static final int bufferSize = 20000;
     public void run(View view) {
         isRecording = true;
         android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
