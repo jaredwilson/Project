@@ -62,7 +62,7 @@ public class Recording extends AppCompatActivity  {
         black_outStatusBar();
         setupSpinners();
         findViewById(R.id.sliderBar).setVisibility(View.GONE);
-        findViewById(R.id.playBackButtons).setVisibility(View.GONE);
+        //findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
     private void setupSpinners () {
