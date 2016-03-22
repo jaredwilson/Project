@@ -28,8 +28,6 @@ public class Files extends AppCompatActivity  {
     public String filename;
     public String progress;
     public int progressInSeconds;
-    private List<String> listOfFileNames;
-    private ArrayAdapter<String> fileAdapter;
     private MyCustomArrayAdapter mcaa;
     private final PlayActions player = PlayActions.getInstance();
     public boolean fileExists;
@@ -67,22 +65,14 @@ public class Files extends AppCompatActivity  {
 
         // check message values. IF null set appropriate flags
         if (message.equals(",")) {
-            // there's no file, so a recording will require creating a new file.
             filename = "";
             progress = "";
             fileExists = false;
-
         } else {
             filename = (message.split(","))[0];
             progress = (message.split(","))[1];
             progressInSeconds = Integer.parseInt(progress);
             fileExists = true;
-
-            try {
-                // prepare the audio file for playing
-                // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
-
-            } catch (Exception e) {}
         }
     }
 
@@ -91,7 +81,7 @@ public class Files extends AppCompatActivity  {
         progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
         tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
-        Log.i("Str", "path: " + this.getFilesDir().getPath());
+        fileExists = true;
     }
 
     // functions for Navigation
@@ -104,6 +94,7 @@ public class Files extends AppCompatActivity  {
     }
 
     public void playActions(View view) {
+        if(filename.isEmpty()) { return; }
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);
         }
@@ -116,25 +107,6 @@ public class Files extends AppCompatActivity  {
         lv.setAdapter(mcaa);
     }
 
-    /**
-     * Called but button push when user wants to rename
-     * @param stringInput name of new string
-     */
-    private void rename(String stringInput) {
-        // rename file to new path
-        if(!stringInput.isEmpty()) {
-            (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + stringInput));
-            filename = this.getFilesDir().getPath() + "/" + stringInput;
-            updateChanges();
-            TextView tv = (TextView) findViewById(R.id.selectedTextView);
-            tv.setText(stringInput);
-        }
-    }
-
-    /**
-     * Builds AlertDialog with input
-     * @param v View
-     */
     public void renameFile(View v) {
         if(fileExists) {
             final EditText input = new EditText(this);
@@ -155,16 +127,14 @@ public class Files extends AppCompatActivity  {
             }).show();
         }
     }
-
-    private void delete () {
-        File file = new File(filename);
-        try {
-            file.getCanonicalFile().delete();
+    private void rename(String stringInput) {
+        // rename file to new path
+        if(!stringInput.isEmpty()) {
+            (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + stringInput));
+            filename = this.getFilesDir().getPath() + "/" + stringInput;
             updateChanges();
-            TextView tv = (TextView)findViewById(R.id.selectedTextView);
-            tv.setText("");
-        } catch (IOException e) {
-            Log.e("Delete Error", "Could not delete, " + e);
+            TextView tv = (TextView) findViewById(R.id.selectedTextView);
+            tv.setText(stringInput);
         }
     }
 
@@ -183,6 +153,21 @@ public class Files extends AppCompatActivity  {
                     .setNegativeButton("Cancel", null)
                     .show();
         }
+    }
+    private void delete () {
+        if(filename.isEmpty()) { return; }
+        File file = new File(filename);
+        try {
+            file.getCanonicalFile().delete();
+            updateChanges();
+            TextView tv = (TextView)findViewById(R.id.selectedTextView);
+            tv.setText("");
+        } catch (IOException e) {
+            Log.e("Delete Error", "Could not delete, " + e);
+        }
+        filename = "";
+        fileExists = false;
+        progress = "";
     }
 
     public void seekForward(View view) {
