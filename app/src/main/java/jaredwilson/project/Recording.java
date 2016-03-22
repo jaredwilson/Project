@@ -10,6 +10,7 @@ import android.media.AudioRecord;
 import android.media.AudioTrack;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
+import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.text.format.Time;
@@ -19,7 +20,11 @@ import android.view.Window;
 import android.view.WindowManager;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
+import android.widget.ListView;
+import android.widget.NumberPicker;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -33,13 +38,16 @@ import java.util.Map;
 public class Recording extends AppCompatActivity  {
     public final static String key = "key";
     public String filename;
-    public String last_saved_filename;
     public String progress;
-    public int rCount;
     public int progressInSeconds;
+    public int recPresetHrs = 0;
+    public int recPresetMins = 0;
+    public int recPresetSecs = 0;
+    public String pomoStatus = "ON";
     //stuff
     public boolean isRecording;
     private MediaRecorder recorder = null;
+    CountDownTimer timer;
     private final PlayActions player = PlayActions.getInstance();
     private final LivePlayActions livePlayer = LivePlayActions.getInstance();
 
@@ -49,9 +57,52 @@ public class Recording extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
         isRecording = false;
-        rCount = 1;
+
         catchIntent();
         black_outStatusBar();
+        setupSpinners();
+        findViewById(R.id.sliderBar).setVisibility(View.GONE);
+        findViewById(R.id.playBackButtons).setVisibility(View.GONE);
+    }
+
+    private void setupSpinners () {
+        NumberPicker hrs = (NumberPicker) findViewById(R.id.hrsSlide);
+        NumberPicker mins = (NumberPicker) findViewById(R.id.minSlide);
+        NumberPicker secs = (NumberPicker) findViewById(R.id.secSlide);
+
+        mins.setMinValue(0);
+        mins.setMinValue(0);
+        secs.setMinValue(0);
+
+        hrs.setMaxValue(8);
+        mins.setMaxValue(59);
+        secs.setMaxValue(59);
+
+
+        hrs.setWrapSelectorWheel(true);
+        mins.setWrapSelectorWheel(true);
+        secs.setWrapSelectorWheel(true);
+
+        hrs.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                recPresetHrs = newVal;
+            }
+        });
+
+        mins.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                recPresetMins = newVal;
+            }
+        });
+
+        secs.setOnValueChangedListener(new NumberPicker.OnValueChangeListener() {
+            @Override
+            public void onValueChange(NumberPicker picker, int oldVal, int newVal) {
+                recPresetSecs = newVal;
+            }
+        });
     }
     private void black_outStatusBar() {
         // change color of status bar to black
@@ -79,7 +130,12 @@ public class Recording extends AppCompatActivity  {
             progressInSeconds = Integer.parseInt(progress);
         }*/
     }
-
+/*
+    private void rename(String newFilename) {
+        // rename file to new path
+        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
+    }
+*/
     // functions for Navigation
     public void filesTabPress(View v) {
         for(String fn : this.getFilesDir().list()) {
@@ -100,9 +156,6 @@ public class Recording extends AppCompatActivity  {
 
         } else {
             endRecording();
-
-            Toast.makeText(v.getContext(), "File saved.",
-                    Toast.LENGTH_LONG).show();
         }
         isRecording = !isRecording;
 
@@ -116,6 +169,31 @@ public class Recording extends AppCompatActivity  {
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
         recorder.setOutputFile(filename);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
+        if (recTimeSet) {
+            int time = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
+            recorder.setMaxDuration(time);
+            timer = new CountDownTimer(time, 1000) {
+                @Override
+                public void onTick(long millisUntilFinished) {
+                    // tic tic tic
+                    long t = millisUntilFinished / 1000;
+                    long h = t / (60 * 60);
+                    t -= (h * 60 * 60);
+                    long m = t / 60;
+                    t -= (m * 60);
+                    long s = t;
+
+                    TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
+                    timeLeft.setText((int)h+":"+(int)m+":"+(int)s);
+                }
+
+                @Override
+                public void onFinish() {
+
+                    endRecording();
+                }
+            }.start();
+        }
         try {
             recorder.prepare();
         } catch (Exception e) {}
@@ -123,18 +201,21 @@ public class Recording extends AppCompatActivity  {
         // change the button to Stop
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
         recorder.start();
+        findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
     private void endRecording() {
-        if (recorder != null) {
-            recorder.stop();
-            recorder.release();
-            recorder = null;
-            ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
-            last_saved_filename = filename + rCount;
-            rCount++;
+        if (recorder == null) {return;}
+        recorder.stop();
+        recorder.release();
+        recorder = null;
+        ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
+        findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
+        recTimeSet = false;
 
-            /*
+
+
+/*
             AlertDialog.Builder builder = new AlertDialog.Builder(this);
             builder.setTitle("Enter new name");
 
@@ -153,32 +234,29 @@ public class Recording extends AppCompatActivity  {
                     dialog.cancel();
                 }
             });
-            builder.show();*/
-
-
-        }
+            builder.show();
+            */
     }
-/*
-    private void rename(String newFilename) {
-        // rename file to new path
-        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
-    }*/
+
+
 
     // PLAYING STUFF***********************************************************
     public void playActions(View view) {
+        if (!(new File(filename)).exists()) {
+            System.out.println("no file to Play");
+            return;
+        }
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);
         }
         player.play_actions(view);
     }
-    public void livePlayActions(View view) {
-        if(!player.getIsPlaying()) {
-            player.stop();
-        }
-        livePlayer.play_actions(view);
-    }
 
     public void seekFwd(View view) {
+        if (!(new File(filename)).exists()) {
+            System.out.println("no file to FFwd");
+            return;
+        }
         // indicate some kind of visual emphasis
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);
@@ -187,6 +265,10 @@ public class Recording extends AppCompatActivity  {
     }
 
     public void seekBck(View view) {
+        if (!(new File(filename)).exists()) {
+            System.out.println("No file to Rwnd");
+            return;
+        }
         // indicate some kind of visual emphasis
         if(!player.getIsPlaying()) {
             player.setSongPath(filename);
@@ -194,7 +276,97 @@ public class Recording extends AppCompatActivity  {
         player.seekBck();
     }
 
+    // TOOL BAR STUFF***********************************************************
 
+    private void resetToolBar() {
+        if (sliderBarOpen) {
+            View dummy = null;
+            onClick_timer(dummy);
+        }
+
+    }
+
+    public boolean sliderBarOpen = false;
+    public void onClick_timer (View v) {
+        if (sliderBarOpen) {
+            ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        } else {
+            ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+        }
+        sliderBarOpen = !sliderBarOpen;
+    }
+
+    public boolean recTimeSet = false;
+    public void setMaxRec(View v) {
+        recTimeSet = true;
+        resetToolBar();
+    }
+
+    public void onClick_saveRec (View v) {
+        resetToolBar();
+        if ((new File(filename)).exists()) {
+            Toast.makeText(getApplicationContext(), "recording saved", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void onClick_delRec (View v) {
+        resetToolBar();
+        if ((new File(filename)).delete()) {
+            Toast.makeText(getApplicationContext(), "recording deleted", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    // this doesn't actually work...
+    public boolean pomo = true;
+    public void onClick_pocketMode (View v) {
+        resetToolBar();
+        if (!pomo) {
+            pomoStatus = "ON";
+            ((ImageButton)v).setImageResource(R.drawable.pocket_large_phone);
+        } else {
+            pomoStatus = "OFF";
+            ((ImageButton)v).setImageResource(R.drawable.pocket_large);
+        }
+        pomo = !pomo;
+        Toast.makeText(getApplicationContext(), "Pocket Mode is " + pomoStatus + "\nPocket Mode lets you record with the screen off." ,
+                Toast.LENGTH_LONG).show();
+
+    }
+
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/*
     // Experimental stuff
     public void run(View view) {
         isRecording = true;
@@ -212,5 +384,11 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
-}
 
+    public void livePlayActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.stop();
+        }
+        livePlayer.play_actions(view);
+    }
+*/
