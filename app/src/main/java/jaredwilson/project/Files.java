@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -11,19 +12,15 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.MediaController;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
-
 import java.io.File;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
-
-public class Files extends AppCompatActivity  {
+public class Files extends AppCompatActivity implements MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener{
     public final static String key = "key";
     public String filename;
     public String progress;
@@ -31,6 +28,11 @@ public class Files extends AppCompatActivity  {
     private MyCustomArrayAdapter mcaa;
     private final PlayActions player = PlayActions.getInstance();
     public boolean fileExists;
+
+    private MediaPlayer mPlayer;
+    private MediaController mController;
+    private boolean isPrepared = false;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +50,12 @@ public class Files extends AppCompatActivity  {
                 listClickActions(view);
             }
         });
+        mPlayer = new MediaPlayer();
+        mPlayer.setOnPreparedListener(this);
+        mController = new MediaController(this) {
+            @Override
+            public void hide(){}
+        };
     }
 
     private void black_outStatusBar() {
@@ -57,7 +65,6 @@ public class Files extends AppCompatActivity  {
         window.clearFlags(WindowManager.LayoutParams.FLAG_TRANSLUCENT_STATUS);
         window.setStatusBarColor(Color.BLACK);
     }
-
     private void catchIntent() {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
@@ -82,6 +89,12 @@ public class Files extends AppCompatActivity  {
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
         tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
         fileExists = true;
+        if(!isPrepared){
+            setup();
+        }else {
+            mPlayer.reset();
+            setup();
+        }
     }
 
     // functions for Navigation
@@ -93,20 +106,11 @@ public class Files extends AppCompatActivity  {
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
     }
 
-    public void playActions(View view) {
-        if(filename.isEmpty()) { return; }
-        if(!player.getIsPlaying()) {
-            player.setSongPath(filename);
-        }
-        player.play_actions(view);
-    }
-
     private void updateChanges() {
         mcaa = new MyCustomArrayAdapter(this, this.getFilesDir().listFiles(), this.getFilesDir());
         ListView lv = (ListView)findViewById(R.id.listView);
         lv.setAdapter(mcaa);
     }
-
     public void renameFile(View v) {
         if(fileExists) {
             final EditText input = new EditText(this);
@@ -137,8 +141,8 @@ public class Files extends AppCompatActivity  {
             tv.setText(stringInput);
         }
     }
-
     public void deleteFile (View v) {
+        mController.hide();
         if (fileExists) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -170,20 +174,66 @@ public class Files extends AppCompatActivity  {
         progress = "";
     }
 
-    public void seekForward(View view) {
-        // indicate some kind of visual emphasis
-        if(!player.getIsPlaying()) {
-            player.setSongPath(filename);
+
+    public void setup() {
+        try {
+            mPlayer.setDataSource(filename);
+            mPlayer.prepare();
+            isPrepared = true;
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        player.seekFwd();
     }
 
-    public void seekBack(View view) {
-        // indicate some kind of visual emphasis
-        if(!player.getIsPlaying()) {
-            player.setSongPath(filename);
-        }
-        player.seekBck();
+    @Override
+    public void start() {
+        mPlayer.start();
+    }
+    @Override
+    public void pause() {
+        mPlayer.pause();
+    }
+    @Override
+    public int getDuration() {
+        return mPlayer.getDuration();
+    }
+    @Override
+    public int getCurrentPosition() {
+        return mPlayer.getCurrentPosition();
+    }
+    @Override
+    public void seekTo(int pos) {
+        mPlayer.seekTo(pos);
+    }
+    @Override
+    public boolean isPlaying() {
+        return mPlayer.isPlaying();
+    }
+    @Override
+    public int getBufferPercentage() {
+        return 0;
+    }
+    @Override
+    public boolean canPause() {
+        return true;
+    }
+    @Override
+    public boolean canSeekBackward() { return true; }
+    @Override
+    public boolean canSeekForward() { return true; }
+    @Override
+    public int getAudioSessionId() { return 0; }
+    @Override
+    public void onPrepared(MediaPlayer mp) {
+        mController.setMediaPlayer(this);
+        mController.setAnchorView(findViewById(R.id.surfaceView));
+        mController.setEnabled(true);
+        mController.show(0);
+    }
+    @Override
+    public void onCompletion(MediaPlayer mp) {
+        mPlayer.seekTo(0);
+        setup();
     }
 }
 

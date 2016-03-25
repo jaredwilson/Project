@@ -16,7 +16,7 @@
         android:layout_alignParentTop="true"
         android:layout_marginRight="6dip"
         android:contentDescription="TODO"
-        android:src="@drawable/small_speaker" />
+        android:src="@drawable/note" />
 
     <TextView
         android:id="@+id/firstLine"

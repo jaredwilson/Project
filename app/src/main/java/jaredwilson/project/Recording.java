@@ -115,20 +115,16 @@ public class Recording extends AppCompatActivity  {
         // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
-        filename = (message.split(","))[0];
-        progress = (message.split(","))[1];
-        progressInSeconds = Integer.parseInt(progress);
-        // check message values. IF null set appropriate flags
-        /*if (message.equals("untitled,0")) {
-            // there's no file, so a recording will require creating a new file.
-            filename = "untitled";
-            progress = "0";
 
+        // check message values. IF null set appropriate flags
+        if (message.equals(",")) {
+            filename = "";
+            progress = "";
         } else {
             filename = (message.split(","))[0];
             progress = (message.split(","))[1];
             progressInSeconds = Integer.parseInt(progress);
-        }*/
+        }
     }
 /*
     private void rename(String newFilename) {

@@ -340,7 +340,7 @@
         android:onClick="seekFwd"/>
         android:background="#00000000" />
 
-    <!-- for testing...
+     for testing...
         <Button
             style="?android:attr/buttonStyleSmall"
             android:layout_width="wrap_content"
