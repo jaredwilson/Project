@@ -97,3 +97,30 @@ public class Editing extends AppCompatActivity {
 
     public void finish() {super.finish();}
 }
+
+/*
+    // Experimental stuff
+    public void run(View view) {
+        isRecording = true;
+        android.os.Process.setThreadPriority(android.os.Process.THREAD_PRIORITY_URGENT_AUDIO);
+        int buffersize = AudioRecord.getMinBufferSize(11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT);
+        AudioRecord arec = new AudioRecord(MediaRecorder.AudioSource.MIC, 11025, AudioFormat.CHANNEL_IN_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize);
+        AudioTrack atrack = new AudioTrack(AudioManager.USE_DEFAULT_STREAM_TYPE, 11025, AudioFormat.CHANNEL_OUT_MONO, AudioFormat.ENCODING_PCM_16BIT, buffersize, AudioTrack.MODE_STREAM);
+        atrack.setPlaybackRate(11025);
+        byte[] buffer = new byte[buffersize];
+        arec.startRecording();
+        atrack.play();
+        while(isRecording) {
+            arec.read(buffer, 0, buffersize);
+            atrack.write(buffer, 0, buffer.length);
+        }
+    }
+
+
+    public void livePlayActions(View view) {
+        if(!player.getIsPlaying()) {
+            player.stop();
+        }
+        livePlayer.play_actions(view);
+    }
+*/

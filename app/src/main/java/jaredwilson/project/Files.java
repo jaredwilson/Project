@@ -32,6 +32,8 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     private MediaPlayer mPlayer;
     private MediaController mController;
     private boolean isPrepared = false;
+    private RelativeLayout prevRL;
+    private boolean isSelected;
 
 
     @Override
@@ -89,6 +91,12 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
         tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
         fileExists = true;
+        if (isSelected) {
+            prevRL.setBackgroundColor(Color.parseColor("#000000"));
+        }
+        prevRL = (RelativeLayout)(view);
+        prevRL.setBackgroundColor(Color.parseColor("#AF34A520"));
+        isSelected = true;
         if(!isPrepared){
             setup();
         }else {
