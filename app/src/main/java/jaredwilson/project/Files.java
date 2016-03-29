@@ -1,6 +1,8 @@
 package jaredwilson.project;
 
+import android.app.Activity;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -11,6 +13,7 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -54,10 +57,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         });
         mPlayer = new MediaPlayer();
         mPlayer.setOnPreparedListener(this);
-        mController = new MediaController(this) {
-            @Override
-            public void hide(){}
-        };
+        mController = new MediaController(this);
     }
 
     private void black_outStatusBar() {
@@ -90,6 +90,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
         tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
+        tv.setHint("");
         fileExists = true;
         if (isSelected) {
             prevRL.setBackgroundColor(Color.parseColor("#000000"));
@@ -122,7 +123,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     public void renameFile(View v) {
         if(fileExists) {
             final EditText input = new EditText(this);
-            new AlertDialog.Builder(this)
+            final AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Enter new name")
                     .setView(input)
                     .setPositiveButton("Rename", new DialogInterface.OnClickListener() {
@@ -136,7 +137,16 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
                         public void onClick(DialogInterface dialog, int which) {
                             dialog.cancel();
                         }
-            }).show();
+            }).create();
+            input.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+                @Override
+                public void onFocusChange(View v, boolean hasFocus) {
+                    if (hasFocus) {
+                        dialog.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_VISIBLE);
+                    }
+                }
+            });
+            dialog.show();
         }
     }
     private void rename(String stringInput) {
@@ -230,7 +240,8 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     @Override
     public boolean canSeekForward() { return true; }
     @Override
-    public int getAudioSessionId() { return 0; }
+    public int getAudioSessionId() {
+        return 0; }
     @Override
     public void onPrepared(MediaPlayer mp) {
         mController.setMediaPlayer(this);
@@ -243,5 +254,6 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         mPlayer.seekTo(0);
         setup();
     }
+
 }
 
