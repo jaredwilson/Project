@@ -1,56 +1,35 @@
 package jaredwilson.project;
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaPlayer;
 import android.media.MediaRecorder;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.NumberPicker;
-import android.widget.ProgressBar;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import java.io.File;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.HashMap;
-import java.util.Map;
 
-//System.out.println("");
 public class Recording extends AppCompatActivity  {
     public final static String key = "key";
     public String filename;
     public String progress;
-    public int progressInSeconds;
-    public int recPresetHrs = 0;
-    public int recPresetMins = 0;
-    public int recPresetSecs = 0;
+    public int recPresetHrs;
+    public int recPresetMins;
+    public int recPresetSecs;
     public String pomoStatus = "ON";
-    //stuff
     public boolean isRecording;
     private MediaRecorder recorder = null;
     CountDownTimer timer;
     private final PlayActions player = PlayActions.getInstance();
-    private final LivePlayActions livePlayer = LivePlayActions.getInstance();
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +45,10 @@ public class Recording extends AppCompatActivity  {
     }
 
     private void setupSpinners () {
+        recPresetHrs = 0;
+        recPresetMins = 0;
+        recPresetSecs = 0;
+
         NumberPicker hrs = (NumberPicker) findViewById(R.id.hrsSlide);
         NumberPicker mins = (NumberPicker) findViewById(R.id.minSlide);
         NumberPicker secs = (NumberPicker) findViewById(R.id.secSlide);
@@ -74,6 +57,7 @@ public class Recording extends AppCompatActivity  {
         mins.setMinValue(0);
         secs.setMinValue(0);
 
+        // 9 hour max recording
         hrs.setMaxValue(8);
         mins.setMaxValue(59);
         secs.setMaxValue(59);
@@ -112,26 +96,10 @@ public class Recording extends AppCompatActivity  {
         window.setStatusBarColor(Color.BLACK);
     }
     public void catchIntent() {
-        // Catch intent from sending Activity (filter?)
+        // Catch intent from sending Activity
         Intent intent = getIntent();
-        String message = intent.getStringExtra(key);
-
-        // check message values. IF null set appropriate flags
-        if (message.equals(",")) {
-            filename = "";
-            progress = "";
-        } else {
-            filename = (message.split(","))[0];
-            progress = (message.split(","))[1];
-            progressInSeconds = Integer.parseInt(progress);
-        }
+        /* Record is an adult. Record doesn't need anything from anyone. */
     }
-/*
-    private void rename(String newFilename) {
-        // rename file to new path
-        (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + newFilename));
-    }
-*/
     // functions for Navigation
     public void filesTabPress(View v) {
         for(String fn : this.getFilesDir().list()) {
@@ -139,7 +107,6 @@ public class Recording extends AppCompatActivity  {
         }
         new ChangeTabs().execute("Files", (filename + "," + progress), this);
     }
-
     public void editTabPress(View v) {
 
         new ChangeTabs().execute("Editing", (filename + "," + progress), this);
@@ -148,14 +115,12 @@ public class Recording extends AppCompatActivity  {
     // RECORDING STUFF***********************************************************
     public void onRecord(View v) {
         if (!isRecording) {
+            isRecording = !isRecording; // redundant, but necessary
             startRecording();
-
         } else {
+            isRecording = !isRecording;
             endRecording();
         }
-        isRecording = !isRecording;
-
-
     }
 
     private void startRecording() {
@@ -166,38 +131,44 @@ public class Recording extends AppCompatActivity  {
         recorder.setOutputFile(filename);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         if (recTimeSet) {
-            int time = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
-            recorder.setMaxDuration(time);
-            timer = new CountDownTimer(time, 1000) {
+            int recTime = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
+            recorder.setMaxDuration(recTime);
+            timer = new CountDownTimer(recTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
-                    // tic tic tic
-                    long t = millisUntilFinished / 1000;
-                    long h = t / (60 * 60);
-                    t -= (h * 60 * 60);
-                    long m = t / 60;
-                    t -= (m * 60);
-                    long s = t;
-
-                    TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
-                    timeLeft.setText((int)h+":"+(int)m+":"+(int)s);
+                    Calendar time = Calendar.getInstance();
+                    time.setTimeInMillis(millisUntilFinished);
+                    int h = time.get(Calendar.HOUR_OF_DAY);
+                    int m = time.get(Calendar.MINUTE);
+                    int s = time.get(Calendar.SECOND);
+                    String mins0 = "";
+                    String secs0 = "";
+                    if (s < 10) {
+                        secs0 = "0";
+                    }
+                    if (m < 10) {
+                        mins0 = "0";
+                    }
+                    setTimer("0" + h + ":" + mins0 + m + ":" + secs0 + s);
                 }
-
                 @Override
                 public void onFinish() {
-
+                    // make sure time remaining = 00:00:00
+                    setTimer("00:00:00");
                     endRecording();
                 }
             }.start();
+        } else {
+            startRecTime = System.currentTimeMillis();
+            new TimerAsyncTask().execute(this);
         }
         try {
             recorder.prepare();
         } catch (Exception e) {}
-
         // change the button to Stop
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
         recorder.start();
-        findViewById(R.id.playBackButtons).setVisibility(View.GONE);
+        //findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
     private void endRecording() {
@@ -206,35 +177,18 @@ public class Recording extends AppCompatActivity  {
         recorder.release();
         recorder = null;
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
-        findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
+        //findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
         recTimeSet = false;
-
-
-
-/*
-            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-            builder.setTitle("Enter new name");
-
-            final EditText input = new EditText(this);
-            builder.setView(input);
-
-            builder.setPositiveButton("Rename", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    rename(input.getText().toString());
-                }
-            });
-            builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                @Override
-                public void onClick(DialogInterface dialog, int which) {
-                    dialog.cancel();
-                }
-            });
-            builder.show();
-            */
+        startRecTime = 0;
     }
 
 
+
+    public long startRecTime;
+    public void setTimer(String progress) {
+        TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
+        timeLeft.setText(progress);
+    }
 
     // PLAYING STUFF***********************************************************
     public void playActions(View view) {

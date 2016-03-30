@@ -33,10 +33,6 @@ public class ChangeTabs extends AsyncTask <Object, Void, Void> {
                 break;
         }
         intent.putExtra("key", message);
-
-
-        //Object dumb = new Object();
-        //return (Void)dumb;
         return null;
     }
 
