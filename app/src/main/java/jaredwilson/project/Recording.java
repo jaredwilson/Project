@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.media.MediaRecorder;
 import android.os.CountDownTimer;
+import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -136,6 +137,7 @@ public class Recording extends AppCompatActivity  {
             timer = new CountDownTimer(recTime, 1000) {
                 @Override
                 public void onTick(long millisUntilFinished) {
+                    if (enforcePocketMode()) {onFinish();}
                     Calendar time = Calendar.getInstance();
                     time.setTimeInMillis(millisUntilFinished);
                     int h = time.get(Calendar.HOUR_OF_DAY);
@@ -188,6 +190,12 @@ public class Recording extends AppCompatActivity  {
     public void setTimer(String progress) {
         TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
         timeLeft.setText(progress);
+    }
+
+    public boolean enforcePocketMode() {
+        PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn(); //don't hate...
+        return (!pomo && isScreenOn);
     }
 
     // PLAYING STUFF***********************************************************
@@ -266,7 +274,7 @@ public class Recording extends AppCompatActivity  {
         }
     }
 
-    // this doesn't actually work...
+    // this should actually work now...
     public boolean pomo = true;
     public void onClick_pocketMode (View v) {
         resetToolBar();

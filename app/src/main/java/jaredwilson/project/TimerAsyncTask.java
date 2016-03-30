@@ -8,6 +8,8 @@ public class TimerAsyncTask extends AsyncTask <Object, String, Void> {
     protected Void doInBackground(Object[] params) {
         temp = (Recording)params[0];
         while (temp.isRecording) {
+            if (temp.enforcePocketMode()) {break;}
+
             Calendar time = Calendar.getInstance();
             long now = time.getTimeInMillis();
             long diff = now - temp.startRecTime;
