@@ -236,48 +236,87 @@ public class Recording extends AppCompatActivity  {
 
     // TOOL BAR STUFF***********************************************************
 
-    private void resetToolBar() {
+    private void resetToolBar(String id, boolean show) {
+        ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+        ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
+        ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
+        ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
+
+
+
+        switch (id) {
+            case "Timer":
+                if (show)
+                    ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
+                else
+                    ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
+                break;
+            case "Save":
+                if (show)
+                    ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.VISIBLE);
+                else
+                    ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
+                break;
+            case "Delete":
+                if (show)
+                    ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.VISIBLE);
+                else
+                    ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
+                break;
+            case "Pocket":
+                if (show)
+                    ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.VISIBLE);
+                else
+                    ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
+                break;
+            default:
+                // do nothin...
+        }
+
+
         if (sliderBarOpen) {
             View dummy = null;
-            onClick_timer(dummy);
+            onClick_setRecTime(dummy);
         }
 
     }
 
     public boolean sliderBarOpen = false;
-    public void onClick_timer (View v) {
-        if (sliderBarOpen) {
-            ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.GONE);
-        } else {
-            ((RelativeLayout) findViewById(R.id.sliderBar)).setVisibility(View.VISIBLE);
-        }
-        sliderBarOpen = !sliderBarOpen;
+    public void onClick_setRecTime (View v) {
+        resetToolBar("Timer",
+                !(((RelativeLayout) findViewById(R.id.sliderBar)).getVisibility() == View.VISIBLE));
     }
 
     public boolean recTimeSet = false;
     public void setMaxRec(View v) {
         recTimeSet = true;
-        resetToolBar();
+        resetToolBar("Timer",
+                !(((RelativeLayout) findViewById(R.id.sliderBar)).getVisibility() == View.VISIBLE));
     }
 
     public void onClick_saveRec (View v) {
-        resetToolBar();
-        if ((new File(filename)).exists()) {
+        resetToolBar("Save",
+                !(((RelativeLayout) findViewById(R.id.saveBar)).getVisibility() == View.VISIBLE));
+        /*if ((new File(filename)).exists()) {
             Toast.makeText(getApplicationContext(), "recording saved", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     public void onClick_delRec (View v) {
-        resetToolBar();
-        if ((new File(filename)).delete()) {
+        resetToolBar("Delete",
+                !(((RelativeLayout) findViewById(R.id.deleteBar)).getVisibility() == View.VISIBLE));
+        /*if ((new File(filename)).delete()) {
             Toast.makeText(getApplicationContext(), "recording deleted", Toast.LENGTH_SHORT).show();
-        }
+        }*/
     }
 
     // this should actually work now...
     public boolean pomo = true;
     public void onClick_pocketMode (View v) {
-        resetToolBar();
+        resetToolBar("Pocket",
+                !(((RelativeLayout) findViewById(R.id.pomoBar)).getVisibility() == View.VISIBLE));
+
+        /*resetToolBar("Pocket", true);
         if (!pomo) {
             pomoStatus = "ON";
             ((ImageButton)v).setImageResource(R.drawable.pocket_large_phone);
@@ -288,7 +327,7 @@ public class Recording extends AppCompatActivity  {
         pomo = !pomo;
         Toast.makeText(getApplicationContext(), "Pocket Mode is " + pomoStatus + "\nPocket Mode lets you record with the screen off." ,
                 Toast.LENGTH_LONG).show();
-
+        */
     }
 
 }
