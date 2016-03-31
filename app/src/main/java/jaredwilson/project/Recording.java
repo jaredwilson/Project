@@ -318,7 +318,6 @@ public class Recording extends AppCompatActivity  {
         resetToolBar("Pocket",
                 !(((RelativeLayout) findViewById(R.id.pomoBar)).getVisibility() == View.VISIBLE));
 
-        /*resetToolBar("Pocket", true);
         if (!pomo) {
             pomoStatus = "ON";
             ((ImageButton)v).setImageResource(R.drawable.pocket_large_phone);
@@ -329,7 +328,7 @@ public class Recording extends AppCompatActivity  {
         pomo = !pomo;
         Toast.makeText(getApplicationContext(), "Pocket Mode is " + pomoStatus + "\nPocket Mode lets you record with the screen off." ,
                 Toast.LENGTH_LONG).show();
-        */
+
     }
 
 }
