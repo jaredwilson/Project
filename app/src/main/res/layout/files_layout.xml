@@ -42,7 +42,7 @@ tools:context=".Files"
     android:layout_marginLeft="55dp"
     android:layout_marginStart="55dp"
     android:onClick="editTabPress"
-    android:src="@drawable/tools_white" />
+    android:src="@drawable/megaphone01_white" />
 
 
 <!-- the following will be active with event listeners-->
