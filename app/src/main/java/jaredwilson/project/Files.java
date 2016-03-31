@@ -27,7 +27,6 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     public final static String key = "key";
     public String filename;
     public String progress;
-    public int progressInSeconds;
     private MyCustomArrayAdapter mcaa;
     private final PlayActions player = PlayActions.getInstance();
     public boolean fileExists;
@@ -75,19 +74,13 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         window.setStatusBarColor(Color.BLACK);
     }
     private void catchIntent() {
-        // Catch intent from sending Activity (filter?)
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
-
-        // check message values. IF null set appropriate flags
-        if (message.equals(",")) {
+        if (message.equals("dummyString")) {
             filename = "";
-            progress = "";
             fileExists = false;
         } else {
-            filename = (message.split(","))[0];
-            progress = (message.split(","))[1];
-            progressInSeconds = Integer.parseInt(progress);
+            filename = message;
             fileExists = true;
         }
     }
@@ -116,10 +109,10 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     // functions for Navigation
     public void filesTabPress(View v) {/* we're there already, so do nothing */}
     public void recordingTabPress(View v) {
-        new ChangeTabs().execute("Recording", (filename + "," + progress), this);
+        new ChangeTabs().execute("Recording", "dummyString", this);
     }
     public void editTabPress(View v) {
-        new ChangeTabs().execute("Editing", (filename + "," + progress), this);
+        new ChangeTabs().execute("Editing", "dummyString", this);
     }
 
     private void updateChanges() {

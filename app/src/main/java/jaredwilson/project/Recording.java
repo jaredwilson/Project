@@ -20,9 +20,7 @@ import java.io.File;
 import java.util.Calendar;
 
 public class Recording extends AppCompatActivity  {
-    public final static String key = "key";
     public String filename;
-    public String progress;
     public int recPresetHrs;
     public int recPresetMins;
     public int recPresetSecs;
@@ -37,13 +35,8 @@ public class Recording extends AppCompatActivity  {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
         isRecording = false;
-
-        //catchIntent();
         black_outStatusBar();
         setupSpinners();
-        generateFilename();
-        //findViewById(R.id.sliderBar).setVisibility(View.GONE);
-        //findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
     private void setupSpinners () {
@@ -107,11 +100,11 @@ public class Recording extends AppCompatActivity  {
         for(String fn : this.getFilesDir().list()) {
             Log.i("FileName",fn);
         }
-        new ChangeTabs().execute("Files", (filename + "," + 0), this);
+        new ChangeTabs().execute("Files", filename, this);
     }
     public void editTabPress(View v) {
 
-        new ChangeTabs().execute("Editing", (filename + "," + progress), this);
+        new ChangeTabs().execute("Editing", ("dummyString"), this);
     }
 
     // RECORDING STUFF***********************************************************
@@ -128,6 +121,7 @@ public class Recording extends AppCompatActivity  {
         filename = this.getFilesDir().getPath() + "/" + Calendar.getInstance().getTime().toString().replaceAll(":", "_");
     }
     private void startRecording() {
+        generateFilename();
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
