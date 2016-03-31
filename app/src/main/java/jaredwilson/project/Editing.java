@@ -36,31 +36,11 @@ public class Editing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editing_layout);
         black_outStatusBar();
-
-        // Catch intent from sending Activity (filter?)
+        /*
         Intent intent = getIntent();
         String message = intent.getStringExtra(key);
-
+        */
         // check message values. IF null set appropriate flags
-        if (message.equals(",")) {
-            // there's no file, so a recording will require creating a new file.
-            filename = "";
-            progress = "";
-
-        } else {
-            filename = (message.split(","))[0];
-            progress = (message.split(","))[1];
-            progressInSeconds = Integer.parseInt(progress);
-
-
-            try {
-                // prepare the audio file for playing
-                // Q: How're we going to handle recording here? Record over the file? Insert recording? Decisions...
-
-            } catch (Exception e) {}
-
-
-        }
     }
 
     private void black_outStatusBar() {
@@ -71,31 +51,16 @@ public class Editing extends AppCompatActivity {
         window.setStatusBarColor(Color.BLACK);
     }
 
-    // functions for PlaybackModule
-    public void pressPlay(View view) {
-        if(!player.getIsPlaying()) {
-            player.setSongPath(filename);
-        }
-        player.play_actions(view);
-    }
-
-    public void pressFF() {}
-
-    public void pressRW() {}
-
-
-    // functions for Navigation
-    public void editTabPress(View v) {/* we're there already, so do nothing */}
-
     public void filesTabPress(View v) {
-        new ChangeTabs().execute("Files", (filename + "," + progress), this);
+        new ChangeTabs().execute("Files", ("dummyString" + "," + 0), this);
     }
 
     public void recordingTabPress(View v) {
-        new ChangeTabs().execute("Recording", (filename + "," + progress), this);
+        new ChangeTabs().execute("Recording", ("dummyString" + "," + 0), this);
     }
 
-    public void finish() {super.finish();}
+
+
 }
 
 /*

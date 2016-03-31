@@ -38,7 +38,7 @@ public class Recording extends AppCompatActivity  {
         setContentView(R.layout.recording_layout);
         isRecording = false;
 
-        catchIntent();
+        //catchIntent();
         black_outStatusBar();
         setupSpinners();
         generateFilename();
