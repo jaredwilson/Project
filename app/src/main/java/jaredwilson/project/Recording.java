@@ -41,7 +41,8 @@ public class Recording extends AppCompatActivity  {
         catchIntent();
         black_outStatusBar();
         setupSpinners();
-        findViewById(R.id.sliderBar).setVisibility(View.GONE);
+        generateFilename();
+        //findViewById(R.id.sliderBar).setVisibility(View.GONE);
         //findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
@@ -106,7 +107,7 @@ public class Recording extends AppCompatActivity  {
         for(String fn : this.getFilesDir().list()) {
             Log.i("FileName",fn);
         }
-        new ChangeTabs().execute("Files", (filename + "," + progress), this);
+        new ChangeTabs().execute("Files", (filename + "," + 0), this);
     }
     public void editTabPress(View v) {
 
@@ -123,9 +124,10 @@ public class Recording extends AppCompatActivity  {
             endRecording();
         }
     }
-
-    private void startRecording() {
+    private void generateFilename() {
         filename = this.getFilesDir().getPath() + "/" + Calendar.getInstance().getTime().toString().replaceAll(":", "_");
+    }
+    private void startRecording() {
         recorder = new MediaRecorder();
         recorder.setAudioSource(MediaRecorder.AudioSource.MIC);
         recorder.setOutputFormat(MediaRecorder.OutputFormat.THREE_GPP);
