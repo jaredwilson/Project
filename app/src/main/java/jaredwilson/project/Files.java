@@ -57,7 +57,14 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         });
         mPlayer = new MediaPlayer();
         mPlayer.setOnPreparedListener(this);
-        mController = new MediaController(this);
+        mController = new MediaController(this) {
+            @Override
+            public void hide() {
+                if(!mPlayer.isPlaying()) {
+                    super.hide();
+                }
+            }
+        };
     }
 
     private void black_outStatusBar() {
@@ -150,6 +157,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
     }
     private void rename(String stringInput) {
+        mController.hide();
         // rename file to new path
         if(!stringInput.isEmpty()) {
             (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + stringInput));
@@ -160,7 +168,6 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
     }
     public void deleteFile (View v) {
-        mController.hide();
         if (fileExists) {
             new AlertDialog.Builder(this)
                     .setIcon(android.R.drawable.ic_dialog_alert)
@@ -177,6 +184,8 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
     }
     private void delete () {
+        mPlayer.stop();
+        mController.hide();
         if(filename.isEmpty()) { return; }
         File file = new File(filename);
         try {
@@ -205,10 +214,12 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
 
     @Override
     public void start() {
+        mController.show(0);
         mPlayer.start();
     }
     @Override
     public void pause() {
+        mController.show(0);
         mPlayer.pause();
     }
     @Override
@@ -247,7 +258,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         mController.setMediaPlayer(this);
         mController.setAnchorView(findViewById(R.id.surfaceView));
         mController.setEnabled(true);
-        mController.show(0);
+        mController.show(3600000);
     }
     @Override
     public void onCompletion(MediaPlayer mp) {

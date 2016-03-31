@@ -36,11 +36,7 @@ public class Editing extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.editing_layout);
         black_outStatusBar();
-        /*
-        Intent intent = getIntent();
-        String message = intent.getStringExtra(key);
-        */
-        // check message values. IF null set appropriate flags
+
     }
 
     private void black_outStatusBar() {

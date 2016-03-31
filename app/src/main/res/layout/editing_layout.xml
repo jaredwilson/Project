@@ -57,6 +57,7 @@ tools:context=".Editing"
     android:layout_marginLeft="30dp"
     android:layout_marginBottom="45dp"
     />
+    <!-- the following will be deleted probably
 <ImageButton android:id="@+id/playButt"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
