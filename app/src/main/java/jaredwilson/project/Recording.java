@@ -28,7 +28,7 @@ public class Recording extends AppCompatActivity  {
     public int recPresetSecs;
     public String pomoStatus = "ON";
     public boolean isRecording;
-    private MediaRecorder recorder = null;
+    public MediaRecorder recorder = null;
     CountDownTimer timer;
     private final PlayActions player = PlayActions.getInstance();
 
@@ -186,18 +186,10 @@ public class Recording extends AppCompatActivity  {
         startRecTime = 0;
     }
 
-
-
     public long startRecTime;
     public void setTimer(String progress) {
         TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
         timeLeft.setText(progress);
-    }
-
-    public boolean enforcePocketMode() {
-        PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
-        boolean isScreenOn = pm.isScreenOn(); //don't hate...
-        return (!pomo && isScreenOn);
     }
 
     // PLAYING STUFF***********************************************************
@@ -318,7 +310,6 @@ public class Recording extends AppCompatActivity  {
         resetToolBar("Pocket",
                 !(((RelativeLayout) findViewById(R.id.pomoBar)).getVisibility() == View.VISIBLE));
 
-        /*resetToolBar("Pocket", true);
         if (!pomo) {
             pomoStatus = "ON";
             ((ImageButton)v).setImageResource(R.drawable.pocket_large_phone);
@@ -329,7 +320,12 @@ public class Recording extends AppCompatActivity  {
         pomo = !pomo;
         Toast.makeText(getApplicationContext(), "Pocket Mode is " + pomoStatus + "\nPocket Mode lets you record with the screen off." ,
                 Toast.LENGTH_LONG).show();
-        */
+
+    }
+    public boolean enforcePocketMode() {
+        PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
+        boolean isScreenOn = pm.isScreenOn(); //don't hate...
+        return (!pomo && isScreenOn);
     }
 
 }

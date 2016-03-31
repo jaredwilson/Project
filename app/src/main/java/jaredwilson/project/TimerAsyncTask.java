@@ -7,7 +7,7 @@ public class TimerAsyncTask extends AsyncTask <Object, String, Void> {
     Recording temp;
     protected Void doInBackground(Object[] params) {
         temp = (Recording)params[0];
-        while (temp.isRecording) {
+        while (temp.recorder != null) {
             if (temp.enforcePocketMode()) {break;}
 
             Calendar time = Calendar.getInstance();
@@ -25,6 +25,7 @@ public class TimerAsyncTask extends AsyncTask <Object, String, Void> {
             if (m < 10) {
                 mins0 = "0";
             }
+            h -= 17;// this is a patch-job...
             publishProgress("0" + h + ":" + mins0 + m + ":" + secs0 + s);
         }
         return null;
