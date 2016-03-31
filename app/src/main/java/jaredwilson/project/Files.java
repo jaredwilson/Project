@@ -150,6 +150,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
     }
     private void rename(String stringInput) {
+        mController.hide();
         // rename file to new path
         if(!stringInput.isEmpty()) {
             (new File(filename)).renameTo(new File(this.getFilesDir().getPath() + "/" + stringInput));
