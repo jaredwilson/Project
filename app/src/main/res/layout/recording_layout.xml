@@ -26,7 +26,7 @@
     <ImageButton android:id="@+id/folderTab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/folder_gry"
+        android:src="@drawable/folder_white"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true"
         android:onClick="filesTabPress"
@@ -36,7 +36,7 @@
     <ImageButton android:id="@+id/editTab"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/tools_gry"
+        android:src="@drawable/tools_white"
         android:layout_alignParentTop="true"
         android:layout_toRightOf="@+id/folderTab"
         android:layout_toEndOf="@+id/folderTab"
@@ -121,7 +121,7 @@
             android:layout_height="wrap_content"
             android:layout_weight="2"
             android:layout_gravity="center"
-            android:onClick="onClick_timer"/>
+            android:onClick="onClick_setRecTime"/>
 
         <ImageButton android:id="@+id/saveRec"
             android:src="@drawable/save_white"
@@ -142,7 +142,7 @@
             android:onClick="onClick_delRec"/>
 
         <ImageButton android:id="@+id/pocketMode"
-            android:src="@drawable/pocket_large_phone"
+            android:src="@drawable/pocket_large"
             android:background="#000000"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -152,7 +152,7 @@
     </LinearLayout>
 
     <RelativeLayout android:id="@+id/sliderBar"
-        android:visibility="visible"
+        android:visibility="gone"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -236,6 +236,89 @@
 
     </RelativeLayout>
 
+    <RelativeLayout android:id="@+id/saveBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="15dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:hint="Save"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/saveButton" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:hint="filename here"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/saveButton"
+            android:layout_marginEnd="70dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/deleteBar"
+        android:visibility="gone"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="15dp">
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="30dp"
+            android:hint="Delete"
+            android:layout_alignParentTop="true"
+            android:layout_alignParentEnd="true"
+            android:id="@+id/deleteButton" />
+
+        <EditText
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="30dp"
+            android:hint="filename here"
+            android:layout_alignParentTop="true"
+            android:layout_toStartOf="@+id/deleteButton"
+            android:layout_marginEnd="70dp" />
+
+    </RelativeLayout>
+
+    <RelativeLayout android:id="@+id/pomoBar"
+        android:visibility="visible"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:paddingTop="15dp">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Pocket Mode:\nRecord with your screen off."
+            android:layout_marginLeft="60dp"/>
+
+        <Switch android:id="@+id/pomoSwitch"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="60dp"/>
+
+
+    </RelativeLayout>
+<!--
     <ProgressBar android:id="@+id/border2"
         style="?android:attr/progressBarStyleHorizontal"
         android:layout_width="match_parent"
@@ -244,7 +327,7 @@
         android:layout_marginLeft="10dp"
         android:layout_below="@+id/sliderBar"
         android:layout_centerHorizontal="true" />
-
+-->
     <TextView android:id="@+id/recordingCount"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
