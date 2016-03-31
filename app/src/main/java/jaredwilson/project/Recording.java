@@ -20,7 +20,7 @@ import java.io.File;
 import java.util.Calendar;
 
 public class Recording extends AppCompatActivity  {
-    public String filename;
+    public String filename = "dummyString";
     public int recPresetHrs;
     public int recPresetMins;
     public int recPresetSecs;
