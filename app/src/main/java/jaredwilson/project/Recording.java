@@ -134,7 +134,7 @@ public class Recording extends AppCompatActivity  {
         recorder.setOutputFile(filename);
         recorder.setAudioEncoder(MediaRecorder.AudioEncoder.AMR_NB);
         if (recTimeSet) {
-            int recTime = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
+            //int recTime = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
             recorder.setMaxDuration(recTime);
             timer = new CountDownTimer(recTime, 1000) {
                 @Override
@@ -183,6 +183,7 @@ public class Recording extends AppCompatActivity  {
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
         //findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
         recTimeSet = false;
+        recTime = 0;
         startRecTime = 0;
     }
 
@@ -190,6 +191,23 @@ public class Recording extends AppCompatActivity  {
     public void setTimer(String progress) {
         TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
         timeLeft.setText(progress);
+    }
+
+    public String getMaxRecTime() {
+        Calendar time = Calendar.getInstance();
+        time.setTimeInMillis(recTime);
+        int h = time.get(Calendar.HOUR_OF_DAY);
+        int m = time.get(Calendar.MINUTE);
+        int s = time.get(Calendar.SECOND);
+        String mins0 = "";
+        String secs0 = "";
+        if (s < 10) {
+            secs0 = "0";
+        }
+        if (m < 10) {
+            mins0 = "0";
+        }
+        return ("0" + h + ":" + mins0 + m + ":" + secs0 + s);
     }
 
     // PLAYING STUFF***********************************************************
@@ -282,8 +300,11 @@ public class Recording extends AppCompatActivity  {
     }
 
     public boolean recTimeSet = false;
+    public int recTime = 0;
     public void setMaxRec(View v) {
+        recTime = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
         recTimeSet = true;
+        setTimer(getMaxRecTime());
         resetToolBar("Timer",
                 !(((RelativeLayout) findViewById(R.id.sliderBar)).getVisibility() == View.VISIBLE));
     }
