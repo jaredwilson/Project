@@ -30,7 +30,7 @@ public class ChangeTabs extends AsyncTask <Object, Void, Void> {
                 break;
             case "Files":
                 intent = new Intent(callingClass, Files.class);
-                break;
+                break; //broke
         }
         intent.putExtra("key", message);
         return null;
