@@ -45,17 +45,25 @@
         android:onClick="editTabPress"
         android:background="#00000000" />
 
+    <Button android:id="@+id/emphasisBar1"
+        android:layout_width="50dp"
+        android:layout_height="9dp"
+        android:background="#FFA500"
+        android:layout_below="@+id/recordTab"
+        android:layout_marginLeft="49dp"
+        android:layout_marginTop="8dp"/>
 
-    <ProgressBar android:id="@+id/border1"
-        style="?android:attr/progressBarStyleHorizontal"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginRight="10dp"
-        android:layout_marginLeft="10dp"
-        android:layout_below="@+id/folderTab"
-        android:layout_centerHorizontal="true" />
+    <!--
+        <ProgressBar android:id="@+id/border1"
+            style="?android:attr/progressBarStyleHorizontal"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="10dp"
+            android:layout_marginLeft="10dp"
+            android:layout_below="@+id/folderTab"
+            android:layout_centerHorizontal="true" />
 
-    <!-- add onCLick event handler for this button later...-->
+        add onCLick event handler for this button later...-->
     <!-- ex: modal says "set recording time:" w/ spinners and OK/CANCEL
     TextView android:id="@+id/recTime"
         android:text="@string/rec_time"
@@ -108,9 +116,9 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
-        android:layout_below="@+id/folderTab"
+        android:layout_below="@+id/emphasisBar1"
         android:layout_centerHorizontal="true"
-        android:paddingTop="12dp"
+        android:layout_marginTop="8dp"
 
         >
 
@@ -150,6 +158,50 @@
             android:layout_weight="2"
             android:onClick="onClick_pocketMode"/>
     </LinearLayout>
+
+
+    <LinearLayout android:id="@+id/emphasisContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@+id/toolBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="4dp" >
+
+        <Button android:id="@+id/emphasisBar2a"
+            android:layout_width="40dp"
+            android:layout_height="9dp"
+            android:background="#FFA500"
+            android:layout_marginLeft="28dp"
+            />
+
+        <Button android:id="@+id/emphasisBar2b"
+            android:layout_width="40dp"
+            android:layout_height="9dp"
+            android:background="#FFA500"
+            android:layout_marginLeft="53dp"
+            />
+
+        <Button android:id="@+id/emphasisBar2c"
+            android:layout_width="40dp"
+            android:layout_height="9dp"
+            android:background="#FFA500"
+            android:layout_marginLeft="54dp"
+            />
+
+        <Button android:id="@+id/emphasisBar2d"
+            android:layout_width="40dp"
+            android:layout_height="9dp"
+            android:background="#FFA500"
+            android:layout_marginLeft="59dp"
+            />
+
+    </LinearLayout>
+
+
+
+
+
 
     <RelativeLayout android:id="@+id/sliderBar"
         android:visibility="gone"
