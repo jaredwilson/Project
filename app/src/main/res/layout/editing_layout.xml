@@ -48,10 +48,21 @@ tools:context=".Editing"
         android:id="@+id/liveFeedImage"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/rec_03copy"
+        android:src="@drawable/play_white"
         android:background="#00000000"
+        android:onClick="checkLive"
+        android:layout_below="@+id/liveFeedText"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="false" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceLarge"
+        android:text="Megaphone/LiveFeed"
+        android:id="@+id/liveFeedText"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true"
-        android:onClick="checkLive" />
+        android:textStyle="bold" />
 
 </RelativeLayout>

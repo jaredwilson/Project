@@ -65,11 +65,11 @@ public class Editing extends AppCompatActivity {
 
         if (isRecording) {
              isRecording = false;
-            ((ImageButton)findViewById(R.id.liveFeedImage)).setImageResource(R.drawable.rec_03copy);
+            ((ImageButton)findViewById(R.id.liveFeedImage)).setImageResource(R.drawable.play_white);
             stopService(new Intent(this, SomeService.class));
         } else {
             isRecording = true;
-            ((ImageButton)findViewById(R.id.liveFeedImage)).setImageResource(R.drawable.recstop_00);
+            ((ImageButton)findViewById(R.id.liveFeedImage)).setImageResource(R.drawable.pause_white);
             startService(new Intent(this, SomeService.class));
             //startLive();
         }
