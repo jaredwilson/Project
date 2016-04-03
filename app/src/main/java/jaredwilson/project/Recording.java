@@ -12,6 +12,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -343,6 +344,19 @@ public class Recording extends AppCompatActivity  {
         return (!pomo && isScreenOn);
     }
 
+    public void toggleToolbar(View v)
+    {
+        if (((LinearLayout) findViewById(R.id.toolbarContainer)).getVisibility() == View.GONE) {
+            ((ImageButton)v).setImageResource(R.drawable.chev_pink_up);
+            ((LinearLayout) findViewById(R.id.toolbarContainer)).setVisibility(View.VISIBLE);
+        }
+        else {
+            ((ImageButton)v).setImageResource(R.drawable.chev_pink_down);
+            ((LinearLayout) findViewById(R.id.toolbarContainer)).setVisibility(View.GONE);
+        }
+
+
+    }
 }
 
 
