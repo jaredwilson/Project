@@ -1,37 +1,17 @@
 package jaredwilson.project;
 
-import android.app.AlertDialog;
-import android.app.Service;
-import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
-import android.media.AudioFormat;
-import android.media.AudioManager;
-import android.media.AudioRecord;
-import android.media.AudioTrack;
-import android.media.MediaRecorder;
 import android.os.Bundle;
-import android.os.IBinder;
-import android.support.annotation.Nullable;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.View;
-import android.widget.Button;
 import android.widget.ImageButton;
 
-import java.io.File;
-import java.io.IOException;
-import java.security.Provider;
 
 public class Editing extends AppCompatActivity {
-    public final static String key = "key";
-    public String filename;
-    public String progress;
 
-    public int progressInSeconds;
-    private final PlayActions player = PlayActions.getInstance();
     private boolean isRecording;
 
     @Override
@@ -43,6 +23,18 @@ public class Editing extends AppCompatActivity {
 
     }
 
+    @Override
+    protected void onPause() {
+        super.onPause();
+        finish();
+    }
+
+    @Override
+    public void finish() {
+        if(isRecording) {
+            stopService(new Intent(this, SomeService.class));
+        }
+    }
     private void black_outStatusBar() {
         // change color of status bar to black
         Window window = this.getWindow();
