@@ -11,7 +11,10 @@
         android:label="SoundHub"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".Homeboy">
+        <activity
+            android:name=".Homeboy"
+            android:screenOrientation="portrait">
+
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -19,19 +22,25 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".Recording" >
+        <activity
+            android:name=".Recording"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Files" >
+        <activity
+            android:name=".Files"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".Editing" >
+        <activity
+            android:name=".Editing"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
             </intent-filter>

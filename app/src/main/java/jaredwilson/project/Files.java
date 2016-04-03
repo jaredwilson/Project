@@ -9,6 +9,8 @@ import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.InputFilter;
+import android.text.method.DigitsKeyListener;
 import android.util.Log;
 import android.view.View;
 import android.view.Window;
@@ -123,6 +125,12 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     public void renameFile(View v) {
         if(fileExists) {
             final EditText input = new EditText(this);
+            input.setSingleLine(true);
+            input.setFilters(new InputFilter[] {
+                    new InputFilter.LengthFilter(30),
+
+
+            });
             final AlertDialog dialog = new AlertDialog.Builder(this)
                     .setTitle("Enter new name")
                     .setView(input)
