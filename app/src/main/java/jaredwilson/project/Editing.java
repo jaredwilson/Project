@@ -27,6 +27,7 @@ public class Editing extends AppCompatActivity {
     protected void onPause() {
         super.onPause();
         finish();
+
     }
 
     @Override
