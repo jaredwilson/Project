@@ -176,13 +176,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Leftbracket_pink"
+                android:src="@drawable/leftbracket_pink"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Rightbracket_pink"
+                android:src="@drawable/rightbracket_pink"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -200,7 +200,7 @@
             <ImageButton android:id="@+id/setRecTime"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/redTriangle"
+                android:src="@drawable/redtriangle"
                 android:background="#000000"
                 android:visibility="gone"
                 android:onClick="setMaxRec"
@@ -275,13 +275,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Leftbracket_green"
+                android:src="@drawable/leftbracket_green"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Rightbracket_green"
+                android:src="@drawable/rightbracket_green"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -318,13 +318,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Leftbracket_yellow"
+                android:src="@drawable/leftbracket_yellow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Rightbracket_yellow"
+                android:src="@drawable/rightbracket_yellow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -361,13 +361,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Leftbracket_blue"
+                android:src="@drawable/leftbracket_blue"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/Rightbracket_blue"
+                android:src="@drawable/rightbracket_blue"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 

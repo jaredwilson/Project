@@ -53,12 +53,12 @@ public class Editing extends AppCompatActivity {
 
     public void filesTabPress(View v) {
         if(isRecording) { stopService(new Intent(this, SomeService.class));}
-        new ChangeTabs().execute("Files", ("dummyString" + "," + 0), this);
+        new ChangeTabs().execute("Files", ("dummyString"), this);
     }
 
     public void recordingTabPress(View v) {
         if(isRecording) { stopService(new Intent(this, SomeService.class));}
-        new ChangeTabs().execute("Recording", ("dummyString" + "," + 0), this);
+        new ChangeTabs().execute("Recording", ("dummyString"), this);
     }
 
     public void checkLive(View view) {
@@ -75,4 +75,3 @@ public class Editing extends AppCompatActivity {
         }
     }
 }
-
