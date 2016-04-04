@@ -12,67 +12,92 @@
 
     <!-- no onCLick event handler for this button-->
     <!-- BUT, this should look like it has emphasis-->
-    <ImageButton android:id="@+id/recordTab"
-        android:layout_width="wrap_content"
+    <LinearLayout android:id="@+id/header"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:src="@drawable/mic"
-        android:layout_alignParentTop="true"
-        android:layout_toLeftOf="@+id/folderTab"
-        android:layout_toStartOf="@+id/folderTab"
-        android:layout_marginRight="55dp"
-        android:layout_marginEnd="55dp"
-        android:background="#00000000" />
+        android:orientation="vertical">
 
-    <ImageButton android:id="@+id/folderTab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/folder_white"
-        android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
-        android:onClick="filesTabPress"
-        android:background="#00000000" />
+        <LinearLayout android:id="@+id/tabsContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="0dp" >
 
-    <ImageButton android:id="@+id/editTab"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/megaphone01_white"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/folderTab"
-        android:layout_toEndOf="@+id/folderTab"
-        android:layout_marginLeft="55dp"
-        android:layout_marginStart="55dp"
-        android:onClick="editTabPress"
-        android:background="#00000000" />
 
-    <ImageButton android:id="@+id/emphasisBar1Arrow"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/chev_pink_up"
-        android:background="#000000"
-        android:layout_below="@+id/recordTab"
-        android:layout_marginLeft="61dp"
-        android:layout_marginTop="4dp"
-        android:layout_marginBottom="0dp"
-        android:onClick="toggleToolbar"
-         />
+            <ImageButton android:id="@+id/recordTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/mic"
+                android:background="#000000"
+                android:onClick="toggleToolbar"
+                android:layout_weight="1"
+                />
 
-    <ImageButton android:id="@+id/recButt"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:src="@drawable/rec_01"
-        android:onClick="onRecord"
-        android:background="#00000000"
-        android:layout_above="@+id/progressBar"
-        android:layout_centerHorizontal="true"
-        android:layout_marginBottom="78dp" />
+            <ImageButton android:id="@+id/folderTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/folder_white"
+                android:onClick="filesTabPress"
+                android:background="#000000"
+                android:layout_weight="1"
+                />
 
+            <ImageButton android:id="@+id/editTab"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/megaphone01_white"
+                android:onClick="editTabPress"
+                android:background="#000000"
+                android:layout_weight="1"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout android:id="@+id/tabsEmphaisContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="center"
+            android:layout_marginTop="3dp" >
+
+            <ImageButton android:id="@+id/emphasisBar1Arrow"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chev_pink_down"
+                android:background="#000000"
+                android:onClick="toggleToolbar"
+                android:layout_weight="1"
+                android:visibility="visible"
+                />
+
+            <ImageButton android:id="@+id/null00"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chev_pink_down"
+                android:background="#000000"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                />
+
+            <ImageButton android:id="@+id/null01"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/chev_pink_down"
+                android:background="#000000"
+                android:layout_weight="1"
+                android:visibility="invisible"
+                />
+
+        </LinearLayout>
+
+    </LinearLayout>
 
     <LinearLayout android:id="@+id/toolbarContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/emphasisBar1Arrow"
-        android:layout_centerHorizontal="true"
+        android:layout_below="@+id/header"
         android:layout_marginTop="0dp"
         android:visibility="visible">
 
@@ -81,45 +106,43 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/emphasisBar1"
-            android:layout_centerHorizontal="true"
-            android:layout_marginTop="0dp"
-
+            android:layout_marginTop="2dp"
+            android:layout_gravity="bottom"
             >
 
             <ImageButton android:id="@+id/hourglass"
                 android:src="@drawable/hourglass"
                 android:background="#000000"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center"
-                android:onClick="onClick_setRecTime"/>
+                android:layout_gravity="bottom"
+                android:onClick="onClick_hourGlass"/>
 
             <ImageButton android:id="@+id/saveRec"
                 android:src="@drawable/save_white"
                 android:background="#000000"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="2"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:onClick="onClick_saveRec"/>
 
             <ImageButton android:id="@+id/delRec"
                 android:src="@drawable/trash_white"
                 android:background="#000000"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:layout_weight="2"
                 android:onClick="onClick_delRec"/>
 
             <ImageButton android:id="@+id/pocketMode"
                 android:src="@drawable/pocket_large"
                 android:background="#000000"
-                android:layout_width="wrap_content"
+                android:layout_width="32dp"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:layout_weight="2"
                 android:onClick="onClick_pocketMode"/>
         </LinearLayout>
@@ -129,8 +152,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/toolBar"
-            android:layout_centerHorizontal="true"
             android:layout_gravity="top"
             android:layout_marginTop="4dp" >
 
@@ -138,53 +159,116 @@
                 android:layout_width="40dp"
                 android:layout_height="9dp"
                 android:background="#d73488"
-                android:layout_marginLeft="28dp"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:onClick="onClick_hourGlass"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 />
 
             <Button android:id="@+id/emphasisBar2b"
                 android:layout_width="40dp"
                 android:layout_height="9dp"
                 android:background="#00ff26"
-                android:layout_marginLeft="53dp"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:onClick="onClick_saveRec"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 />
 
             <Button android:id="@+id/emphasisBar2c"
                 android:layout_width="40dp"
                 android:layout_height="9dp"
                 android:background="#ffcc00"
-                android:layout_marginLeft="53dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:onClick="onClick_delRec"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
                 />
 
             <Button android:id="@+id/emphasisBar2d"
                 android:layout_width="40dp"
                 android:layout_height="9dp"
                 android:background="#3366ff"
-                android:layout_marginLeft="59dp"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:onClick="onClick_pocketMode"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                />
+
+        </LinearLayout>
+        <LinearLayout android:id="@+id/doubleEmphasis"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_gravity="top"
+            android:layout_marginTop="0dp" >
+
+            <Button android:id="@+id/doubleEmphasisBar2a"
+                android:layout_width="40dp"
+                android:layout_height="9dp"
+                android:background="#d73488"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="invisible"
+                />
+
+            <Button android:id="@+id/doubleEmphasisBar2b"
+                android:layout_width="40dp"
+                android:layout_height="9dp"
+                android:background="#00ff26"
+                android:layout_weight="2"
+                android:layout_gravity="center"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="invisible"
+                />
+
+            <Button android:id="@+id/doubleEmphasisBar2c"
+                android:layout_width="40dp"
+                android:layout_height="9dp"
+                android:background="#ffcc00"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="invisible"
+                />
+
+            <Button android:id="@+id/doubleEmphasisBar2d"
+                android:layout_width="40dp"
+                android:layout_height="9dp"
+                android:background="#3366ff"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                android:layout_marginLeft="20dp"
+                android:layout_marginRight="20dp"
+                android:visibility="invisible"
                 />
 
         </LinearLayout>
 
         <!-- -->
-        <RelativeLayout android:id="@+id/sliderBar"
-            android:visibility="gone"
+        <LinearLayout android:id="@+id/timerBar"
+            android:visibility="visible"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_marginTop="8dp"
+            android:layout_marginTop="15dp"
             >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/leftbracket_pink"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
-            <ImageView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:src="@drawable/rightbracket_pink"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:src="@drawable/bracket_left_pink"
+                android:layout_gravity="center"
+                />
+
 
             <TextView
                 android:layout_width="wrap_content"
@@ -192,75 +276,102 @@
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:text="Record\nfor:"
                 android:id="@+id/setRecPrompt1"
-                android:layout_centerVertical="true"
-                android:layout_alignParentStart="true"
-                android:paddingLeft="10dp"
-                android:textAlignment="center"/>
+                android:layout_marginEnd="15dp"
+                android:layout_marginTop="5dp"
+                android:textAlignment="center"
+                android:visibility="gone"/>
 
-            <ImageButton android:id="@+id/setRecTime"
-                android:layout_width="wrap_content"
+
+            <LinearLayout android:id="@+id/sliderContainer"
+                android:layout_width="200dp"
                 android:layout_height="wrap_content"
-                android:src="@drawable/redtriangle"
-                android:background="#000000"
-                android:visibility="gone"
-                android:onClick="setMaxRec"
-                android:layout_alignParentEnd="true"
-                />
+                android:orientation="vertical"
+                >
 
-            <LinearLayout android:id="@+id/sliders"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerHorizontal="true">
+                <LinearLayout android:id="@+id/sliders"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    >
 
-                <NumberPicker android:id="@+id/hrsSlide"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:padding="7dp"
-                    />
+                    <NumberPicker android:id="@+id/hrsSlide"
+                        android:layout_width="60dp"
+                        android:layout_height="80dp"
+                        android:padding="7dp"
+                        android:layout_weight="2"
+                        />
 
-                <NumberPicker android:id="@+id/minSlide"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:padding="7dp"
-                    />
+                    <NumberPicker android:id="@+id/minSlide"
+                        android:layout_width="60dp"
+                        android:layout_height="80dp"
+                        android:padding="7dp"
+                        android:layout_weight="2"
+                        />
 
-                <NumberPicker android:id="@+id/secSlide"
-                    android:layout_width="60dp"
-                    android:layout_height="80dp"
-                    android:padding="7dp"
-                    />
+                    <NumberPicker android:id="@+id/secSlide"
+                        android:layout_width="60dp"
+                        android:layout_height="80dp"
+                        android:padding="7dp"
+                        android:layout_weight="2"
+                        />
 
-            </LinearLayout>
+                </LinearLayout>
 
-            <LinearLayout android:id="@+id/sliderLabels"
-                android:layout_width="180dp"
+                <LinearLayout android:id="@+id/sliderLabels"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_centerHorizontal="true"
-                android:layout_below="@+id/sliders">
+                    >
 
-                <TextView android:id="@+id/hr_lable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="hrs"
-                    android:layout_weight="1"
-                    android:textAlignment="center"/>
-                <TextView android:id="@+id/min_lable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="min"
-                    android:layout_weight="1"
-                    android:textAlignment="center"/>
-                <TextView android:id="@+id/sec_lable"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="sec"
-                    android:layout_weight="1"
-                    android:textAlignment="center"/>
+                    <TextView android:id="@+id/hr_lable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="hrs"
+                        android:textColor="#d73488"
+                        android:layout_weight="2"
+                        android:textAlignment="center"
+                        />
+                    <TextView android:id="@+id/min_lable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="min"
+                        android:textColor="#d73488"
+                        android:layout_weight="2"
+                        android:textAlignment="center"
+                        />
+                    <TextView android:id="@+id/sec_lable"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="sec"
+                        android:textColor="#d73488"
+                        android:layout_weight="2"
+                        android:textAlignment="center"
+                        />
 
+                </LinearLayout>
             </LinearLayout>
 
-        </RelativeLayout>
+            <Button android:id="@+id/setRecTime"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#d73488"
+                android:layout_gravity="center"
+                android:layout_marginStart="15dp"
+                android:layout_weight="1"
+                android:hint="SET"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:onClick="onClick_setRecTime"
+                />
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:src="@drawable/bracket_right_pink"
+                android:layout_gravity="center"
+                />
+
+        </LinearLayout>
 
         <!-- -->
         <RelativeLayout android:id="@+id/saveBar"
@@ -270,18 +381,18 @@
             android:orientation="horizontal"
             android:layout_below="@+id/toolBar"
             android:layout_centerHorizontal="true"
-            android:paddingTop="8dp">
+            android:paddingTop="15dp">
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/leftbracket_green"
+                android:src="@drawable/bracket_left_green"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rightbracket_green"
+                android:src="@drawable/bracket_right_green"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -318,13 +429,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/leftbracket_yellow"
+                android:src="@drawable/bracket_left_yellow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rightbracket_yellow"
+                android:src="@drawable/bracket_right_yellow"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -361,13 +472,13 @@
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/leftbracket_blue"
+                android:src="@drawable/bracket_left_blue"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentStart="true" />
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/rightbracket_blue"
+                android:src="@drawable/bracket_right_blue"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true" />
 
@@ -394,7 +505,15 @@
 
 
 
-
+    <ImageButton android:id="@+id/recButt"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/rec_03copy"
+        android:onClick="TEST_onClick"
+        android:background="#00000000"
+        android:layout_above="@+id/progressBar"
+        android:layout_centerHorizontal="true"
+        android:layout_marginBottom="78dp" />
 
     <TextView android:id="@+id/recordingCount"
         android:layout_width="wrap_content"
