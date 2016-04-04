@@ -14,17 +14,24 @@ import java.io.File;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Comparator;
 import java.util.List;
 
 public class MyCustomArrayAdapter extends ArrayAdapter<File>{
     public MyCustomArrayAdapter(Context context, File[] filenames, File filePath) {
         super(context, -1, filenames);
         this.context = context;
-        this.filenames = new ArrayList<>(Arrays.asList(filePath.list()));
+        File[] files = filePath.listFiles();
+        Arrays.sort(files, new Comparator<File>(){
+            public int compare(File f1, File f2) {
+                return Long.valueOf(f2.lastModified()).compareTo(f1.lastModified()); } });
+        this.filenames = new ArrayList<>();
+        for (File tempFile: files)
+            this.filenames.add(tempFile.getName());
         this.lengths = new ArrayList<>();
         this.modifieds = new ArrayList<>();
-        for (File fn:
-             filenames) {
+
+        for (File fn: files) {
             lengths.add((MediaPlayer.create(context, Uri.parse(fn.getPath()))).getDuration());
             modifieds.add(fn.lastModified());
         }

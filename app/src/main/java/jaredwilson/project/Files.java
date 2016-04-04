@@ -1,8 +1,6 @@
 package jaredwilson.project;
 
-import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -15,7 +13,6 @@ import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
-import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -28,9 +25,7 @@ import java.io.IOException;
 public class Files extends AppCompatActivity implements MediaController.MediaPlayerControl, MediaPlayer.OnPreparedListener, MediaPlayer.OnCompletionListener{
     public final static String key = "key";
     public String filename;
-    public String progress;
     private MyCustomArrayAdapter mcaa;
-    private final PlayActions player = PlayActions.getInstance();
     public boolean fileExists;
 
     private MediaPlayer mPlayer;
@@ -38,6 +33,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     private boolean isPrepared = false;
     private RelativeLayout prevRL;
     private boolean isSelected;
+    private boolean shouldShow = true;
 
 
     @Override
@@ -61,7 +57,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         mController = new MediaController(this) {
             @Override
             public void hide() {
-                if(!mPlayer.isPlaying()) {
+                if(!mPlayer.isPlaying() && !shouldShow) {
                     super.hide();
                 }
             }
@@ -89,7 +85,6 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
 
     private void listClickActions(View view) {
         filename = this.getFilesDir().getPath()+ "/" + ((TextView)(view).findViewById(R.id.firstLine)).getText().toString();
-        progress = "0";
         TextView tv = (TextView)findViewById(R.id.selectedTextView);
         tv.setText(((TextView) (view).findViewById(R.id.firstLine)).getText().toString());
         tv.setHint("");
@@ -123,6 +118,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         lv.setAdapter(mcaa);
     }
     public void renameFile(View v) {
+        shouldShow = false;
         if(fileExists) {
             final EditText input = new EditText(this);
             input.setSingleLine(true);
@@ -158,6 +154,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
     }
     private void rename(String stringInput) {
+        shouldShow = false;
         mController.hide();
         // rename file to new path
         if(!stringInput.isEmpty()) {
@@ -186,6 +183,7 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
     }
     private void delete () {
         mPlayer.stop();
+        shouldShow = false;
         mController.hide();
         if(filename.isEmpty()) { return; }
         File file = new File(filename);
@@ -199,7 +197,6 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         }
         filename = "";
         fileExists = false;
-        progress = "";
     }
 
 
@@ -211,17 +208,20 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         } catch (IOException e) {
             e.printStackTrace();
         }
+        start();
     }
 
     @Override
     public void start() {
+        shouldShow = true;
         mController.show(0);
         mPlayer.start();
     }
     @Override
     public void pause() {
-        mController.show(0);
+        shouldShow = true;
         mPlayer.pause();
+        mController.show(0);
     }
     @Override
     public int getDuration() {
@@ -244,16 +244,13 @@ public class Files extends AppCompatActivity implements MediaController.MediaPla
         return 0;
     }
     @Override
-    public boolean canPause() {
-        return true;
-    }
+    public boolean canPause() { return true; }
     @Override
     public boolean canSeekBackward() { return true; }
     @Override
     public boolean canSeekForward() { return true; }
     @Override
-    public int getAudioSessionId() {
-        return 0; }
+    public int getAudioSessionId() { return 0; }
     @Override
     public void onPrepared(MediaPlayer mp) {
         mController.setMediaPlayer(this);
