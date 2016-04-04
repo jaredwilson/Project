@@ -509,7 +509,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:src="@drawable/rec_03copy"
-        android:onClick="TEST_onClick"
+        android:onClick="onRecord"
         android:background="#00000000"
         android:layout_above="@+id/progressBar"
         android:layout_centerHorizontal="true"

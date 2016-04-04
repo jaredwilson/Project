@@ -3,7 +3,6 @@ package jaredwilson.project;
 import android.graphics.Color;
 import android.media.MediaPlayer;
 import android.media.MediaRecorder;
-import android.os.CountDownTimer;
 import android.os.PowerManager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -26,10 +25,11 @@ public class Recording extends AppCompatActivity  {
     public int recPresetMins;
     public int recPresetSecs;
     public boolean isRecording;
-    public MediaRecorder recorder = null;
+    public boolean recTimeSet;
+    public int recTime;
+    public MediaRecorder recorder;
 
     // Get rid of...
-    CountDownTimer timer;
     private final PlayActions player = PlayActions.getInstance();
 
     @Override
@@ -38,6 +38,9 @@ public class Recording extends AppCompatActivity  {
         setContentView(R.layout.recording_layout);
         filename = "dummyString";
         isRecording = false;
+        recTimeSet = false;
+        recTime = 0;
+        recorder = null;
         black_outStatusBar();
         setupSpinners();
     }
@@ -153,46 +156,12 @@ public class Recording extends AppCompatActivity  {
         //findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
         recTimeSet = false;
         recTime = 0;
-        startRecTime = 0;
     }
 
-    public long startRecTime;
     public void setTimer(String progress) {
-        TextView timeLeft = (TextView)findViewById(R.id.recordingCount);
+        TextView timeLeft = (TextView) findViewById(R.id.recordingCount);
         timeLeft.setText(progress);
     }
-
-    // TIMER STUFF***********************************************************
-    public String getMaxRecTime() {
-        Calendar time = Calendar.getInstance();
-        time.setTimeInMillis(recTime);
-        int h = time.get(Calendar.HOUR_OF_DAY);
-        int m = time.get(Calendar.MINUTE);
-        int s = time.get(Calendar.SECOND);
-        String mins0 = "";
-        String secs0 = "";
-        if (s < 10) {
-            secs0 = "0";
-        }
-        if (m < 10) {
-            mins0 = "0";
-        }
-        return ("0" + h + ":" + mins0 + m + ":" + secs0 + s);
-    }
-
-    public boolean recTimeSet = false;
-
-    public int recTime = 0;
-
-    public void setMaxRec(View v) {
-        recTime = 1000 * (recPresetHrs * 60 * 60 + recPresetMins * 60 + recPresetSecs);
-        recTimeSet = true;
-        setTimer(getMaxRecTime());
-        resetToolBar("Timer",
-                !(((LinearLayout) findViewById(R.id.timerBar)).getVisibility() == View.VISIBLE));
-    }
-
-
 
     // TOOL BAR STUFF***********************************************************
 
@@ -201,8 +170,6 @@ public class Recording extends AppCompatActivity  {
         ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
         ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
-
-
 
         switch (id) {
             case "Timer":
@@ -244,14 +211,14 @@ public class Recording extends AppCompatActivity  {
         if (tempTime > 1) {
             recTime = tempTime;
             recTimeSet = true;
+            resetToolBar("Timer",
+                    !(((LinearLayout) findViewById(R.id.timerBar)).getVisibility() == View.VISIBLE));
         }
         else {
             recTime = 0;
             recTimeSet = false;
         }
 
-        resetToolBar("Timer",
-                !(((LinearLayout) findViewById(R.id.timerBar)).getVisibility() == View.VISIBLE));
     }
 
     public void onClick_saveRec (View v) {
@@ -303,6 +270,7 @@ public class Recording extends AppCompatActivity  {
 
 
     // PLAYING STUFF***********************************************************
+
     public void playActions(View view) {
         if (!(new File(filename)).exists()) {
             System.out.println("no file to Play");
