@@ -99,7 +99,7 @@
         android:orientation="vertical"
         android:layout_below="@+id/header"
         android:layout_marginTop="0dp"
-        android:visibility="visible">
+        android:visibility="gone">
 
         <!-- -->
         <LinearLayout android:id="@+id/toolBar"
@@ -138,7 +138,7 @@
                 android:onClick="onClick_delRec"/>
 
             <ImageButton android:id="@+id/pocketMode"
-                android:src="@drawable/pocket_large"
+                android:src="@drawable/pocket_large_phone"
                 android:background="#000000"
                 android:layout_width="32dp"
                 android:layout_height="wrap_content"
@@ -255,7 +255,7 @@
 
         <!-- -->
         <LinearLayout android:id="@+id/timerBar"
-            android:visibility="visible"
+            android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -269,7 +269,6 @@
                 android:layout_gravity="center"
                 />
 
-
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -280,7 +279,6 @@
                 android:layout_marginTop="5dp"
                 android:textAlignment="center"
                 android:visibility="gone"/>
-
 
             <LinearLayout android:id="@+id/sliderContainer"
                 android:layout_width="200dp"
@@ -361,6 +359,7 @@
                 android:hint="SET"
                 android:textAppearance="?android:attr/textAppearanceLarge"
                 android:textStyle="bold"
+                android:textColor="#ffffff"
                 android:onClick="onClick_setRecTime"
                 />
 
@@ -374,130 +373,142 @@
         </LinearLayout>
 
         <!-- -->
-        <RelativeLayout android:id="@+id/saveBar"
+        <LinearLayout android:id="@+id/saveBar"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/toolBar"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="15dp">
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/bracket_left_green"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:layout_gravity="center"
+                 />
+
+            <TextView android:id="@+id/file_to_save"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="the file to save.."
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                />
+
+            <Button android:id="@+id/saveButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#00ff26"
+                android:layout_gravity="center"
+                android:hint="SAVE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:layout_weight="1"
+                android:onClick="onClick_save"
+                />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/bracket_right_green"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_gravity="center"
+                 />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:hint="Save"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/saveButton" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:hint="filename here"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/saveButton"
-                android:layout_marginEnd="70dp" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <!-- -->
-        <RelativeLayout android:id="@+id/deleteBar"
+        <LinearLayout android:id="@+id/deleteBar"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/toolBar"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="15dp">
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:src="@drawable/bracket_left_yellow"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:src="@drawable/bracket_left_yellow01"
+                android:layout_gravity="center"
+                 />
+
+            <TextView android:id="@+id/file_to_delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="the file to kill.."
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                />
+
+            <Button android:id="@+id/deleteButton"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#ffcc00"
+                android:layout_gravity="center"
+                android:hint="DELETE"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:onClick="onClick_delete"
+                android:layout_weight="1"
+                />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/bracket_right_yellow"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_gravity="center"
+                 />
 
-            <Button
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginRight="30dp"
-                android:hint="Delete"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true"
-                android:id="@+id/deleteButton" />
-
-            <EditText
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginLeft="30dp"
-                android:hint="filename here"
-                android:layout_alignParentTop="true"
-                android:layout_toStartOf="@+id/deleteButton"
-                android:layout_marginEnd="70dp" />
-
-        </RelativeLayout>
+        </LinearLayout>
 
         <!-- -->
-        <RelativeLayout android:id="@+id/pomoBar"
+        <LinearLayout android:id="@+id/pomoBar"
             android:visibility="gone"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:layout_below="@+id/toolBar"
-            android:layout_centerHorizontal="true"
-            android:paddingTop="15dp">
+            >
 
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/bracket_left_blue"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentStart="true" />
+                android:layout_gravity="center"
+                />
+
+            <TextView android:id="@+id/pomoMessage"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Pocket Mode is ON\n(allows you to record with\n  your screen off.)"
+                android:layout_gravity="center"
+                android:layout_weight="2"
+                />
+
+            <Button android:id="@+id/pomoSwitch"
+                android:layout_width="wrap_content"
+                android:layout_height="50dp"
+                android:background="#3366ff"
+                android:layout_gravity="center"
+                android:hint="SWITCH"
+                android:textAppearance="?android:attr/textAppearanceLarge"
+                android:textStyle="bold"
+                android:textColor="#ffffff"
+                android:onClick="onClick_pomo"
+                android:layout_weight="1"
+                />
+
             <ImageView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:src="@drawable/bracket_right_blue"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentEnd="true" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="Pocket Mode:\nRecord with your screen off."
-                android:layout_marginLeft="60dp"/>
-
-            <Switch android:id="@+id/pomoSwitch"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_centerVertical="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginRight="60dp"
-                android:checked="false" />
+                android:layout_gravity="center"
+                />
 
 
-        </RelativeLayout>
+        </LinearLayout>
 
     </LinearLayout>
 
@@ -537,7 +548,7 @@
         android:layout_marginLeft="30dp"
         android:layout_marginBottom="45dp"
         />
-
+<!--
     <LinearLayout android:id="@+id/playBackButtons"
         android:visibility="visible"
         android:layout_width="match_parent"
@@ -574,5 +585,5 @@
 
 
     </LinearLayout>
-
+-->
 </RelativeLayout>

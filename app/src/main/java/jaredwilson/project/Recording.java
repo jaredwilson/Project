@@ -16,36 +16,48 @@ import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import java.io.File;
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
+import java.util.Stack;
 
 public class Recording extends AppCompatActivity  {
     public String filename;
     public int recPresetHrs;
     public int recPresetMins;
     public int recPresetSecs;
+    public boolean pomo;
     public boolean isRecording;
     public boolean recTimeSet;
     public int recTime;
     public MediaRecorder recorder;
+    //public List<String> sessionRecordings;
+    public Stack<String> sessionRecordings;
 
     // Get rid of...
-    private final PlayActions player = PlayActions.getInstance();
+    //private final PlayActions player = PlayActions.getInstance();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.recording_layout);
         filename = "dummyString";
+        //sessionRecordings = new ArrayList<String>();
+        sessionRecordings = new Stack<String>();
+        //sessionRecordings.add(filename);
+        sessionRecordings.push(filename);
         isRecording = false;
         recTimeSet = false;
         recTime = 0;
         recorder = null;
+        pomo = true;
         black_outStatusBar();
-        setupSpinners();
+        resetSpinners();
     }
 
-    private void setupSpinners () {
+    private void resetSpinners() {
         recPresetHrs = 0;
         recPresetMins = 0;
         recPresetSecs = 0;
@@ -101,7 +113,7 @@ public class Recording extends AppCompatActivity  {
         for(String fn : this.getFilesDir().list()) {
             Log.i("FileName",fn);
         }
-        new ChangeTabs().execute("Files", filename, this);
+        new ChangeTabs().execute("Files", sessionRecordings.lastElement(), this);
     }
     public void editTabPress(View v) {
 
@@ -109,24 +121,34 @@ public class Recording extends AppCompatActivity  {
     }
 
     // RECORDING STUFF***********************************************************
-    public MediaPlayer mediaPlayer; // for testing
+    //public MediaPlayer mediaPlayer; // for testing
 
     public void onRecord(View v) {
         if (!isRecording) {
             isRecording = !isRecording; // redundant, but necessary
-            //startRecording();
-            mediaPlayer = MediaPlayer.create(this, R.raw.jammin);
-            new TimerTask().execute(this);
-            mediaPlayer.start();
+            startRecording();
+            // for testing...
+            /*try {
+                mediaPlayer = MediaPlayer.create(this, R.raw.jammin);
+                new TimerTask().execute(this);
+                mediaPlayer.start();
+                ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
+            } catch (Exception e) {}*/
+
         } else {
             isRecording = !isRecording;
-            //endRecording();
-            mediaPlayer.release();
+            endRecording();
+            // for testing...
+            /*mediaPlayer.release();
             mediaPlayer = null;
+            ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
+            setTimer("00:00:00");*/
         }
     }
     private void generateFilename() {
         filename = this.getFilesDir().getPath() + "/" + Calendar.getInstance().getTime().toString().replaceAll(":", "_");
+        //sessionRecordings.add(filename);
+        sessionRecordings.push(filename);
     }
     private void startRecording() {
         generateFilename();
@@ -140,22 +162,20 @@ public class Recording extends AppCompatActivity  {
         try {
             recorder.prepare();
         } catch (Exception e) {}
-        // change the button to Stop
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.recstop_00);
         new TimerTask().execute(this);
         recorder.start();
-        //findViewById(R.id.playBackButtons).setVisibility(View.GONE);
     }
 
-    private void endRecording() {
+    public void endRecording() {
         if (recorder == null) {return;}
         recorder.stop();
         recorder.release();
         recorder = null;
         ((ImageButton)findViewById(R.id.recButt)).setImageResource(R.drawable.rec_03copy);
-        //findViewById(R.id.playBackButtons).setVisibility(View.VISIBLE);
         recTimeSet = false;
         recTime = 0;
+        setTimer("00:00:00");
     }
 
     public void setTimer(String progress) {
@@ -167,9 +187,9 @@ public class Recording extends AppCompatActivity  {
 
     private void resetToolBar(String id, boolean show) {
         ((LinearLayout) findViewById(R.id.timerBar)).setVisibility(View.GONE);
-        ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
-        ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
-        ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
+        ((LinearLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
+        ((LinearLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
+        ((LinearLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
 
         switch (id) {
             case "Timer":
@@ -180,21 +200,21 @@ public class Recording extends AppCompatActivity  {
                 break;
             case "Save":
                 if (show)
-                    ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.VISIBLE);
+                    ((LinearLayout) findViewById(R.id.saveBar)).setVisibility(View.VISIBLE);
                 else
-                    ((RelativeLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
+                    ((LinearLayout) findViewById(R.id.saveBar)).setVisibility(View.GONE);
                 break;
             case "Delete":
                 if (show)
-                    ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.VISIBLE);
+                    ((LinearLayout) findViewById(R.id.deleteBar)).setVisibility(View.VISIBLE);
                 else
-                    ((RelativeLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
+                    ((LinearLayout) findViewById(R.id.deleteBar)).setVisibility(View.GONE);
                 break;
             case "Pocket":
                 if (show)
-                    ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.VISIBLE);
+                    ((LinearLayout) findViewById(R.id.pomoBar)).setVisibility(View.VISIBLE);
                 else
-                    ((RelativeLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
+                    ((LinearLayout) findViewById(R.id.pomoBar)).setVisibility(View.GONE);
                 break;
             default:
                 // do nothin...
@@ -211,6 +231,16 @@ public class Recording extends AppCompatActivity  {
         if (tempTime > 1) {
             recTime = tempTime;
             recTimeSet = true;
+            int diff_H = tempTime / (60*60);
+            int diff_M = (tempTime - (diff_H*60*60)) / 60;
+            int diff_S = (tempTime - ((diff_H*60*60)+(diff_M*60)));
+
+            String h = (diff_H < 10)? "0"+diff_H+":":diff_H+":";
+            String m = (diff_M < 10)? "0"+diff_M+":":diff_M+":";
+            String s = (diff_S < 10)? "0"+diff_S+"":diff_S+"";
+
+            setTimer(h+m+s);
+
             resetToolBar("Timer",
                     !(((LinearLayout) findViewById(R.id.timerBar)).getVisibility() == View.VISIBLE));
         }
@@ -222,46 +252,82 @@ public class Recording extends AppCompatActivity  {
     }
 
     public void onClick_saveRec (View v) {
+        TextView field = (TextView) findViewById(R.id.file_to_save);
+        if((sessionRecordings.lastElement()).equals("dummyString")) {
+            field.setText("<empty>");
+        } else {
+            field.setText(sessionRecordings.lastElement());
+        }
         resetToolBar("Save",
-                !(((RelativeLayout) findViewById(R.id.saveBar)).getVisibility() == View.VISIBLE));
-        /*if ((new File(filename)).exists()) {
-            Toast.makeText(getApplicationContext(), "recording saved", Toast.LENGTH_SHORT).show();
-        }*/
+                !(((LinearLayout) findViewById(R.id.saveBar)).getVisibility() == View.VISIBLE));
+
+    }
+    public void onClick_save(View v) {
+        if((sessionRecordings.lastElement()).equals("dummyString")) {
+            return;
+        }
+        Toast.makeText(getApplicationContext(), "recording saved", Toast.LENGTH_SHORT).show();
+        resetToolBar("Save",
+                !(((LinearLayout) findViewById(R.id.saveBar)).getVisibility() == View.VISIBLE));
     }
 
     public void onClick_delRec (View v) {
+        TextView field = (TextView) findViewById(R.id.file_to_delete);
+        if((sessionRecordings.lastElement()).equals("dummyString")) {
+            field.setText("<empty>");
+        } else {
+            field.setText(sessionRecordings.lastElement());
+        }
         resetToolBar("Delete",
-                !(((RelativeLayout) findViewById(R.id.deleteBar)).getVisibility() == View.VISIBLE));
-        /*if ((new File(filename)).delete()) {
-            Toast.makeText(getApplicationContext(), "recording deleted", Toast.LENGTH_SHORT).show();
-        }*/
+                !(((LinearLayout) findViewById(R.id.deleteBar)).getVisibility() == View.VISIBLE));
+
+    }
+    public void onClick_delete(View v){
+        //if(sessionRecordings.get(sessionRecordings.indexOf(filename)).equals("dummyString")) {return;}
+        TextView field = (TextView) findViewById(R.id.file_to_delete);
+        if((sessionRecordings.lastElement()).equals("dummyString")) {
+            return;
+        }
+        Toast.makeText(getApplicationContext(), "recording \'"+sessionRecordings.lastElement()+"\' deleted." ,
+                Toast.LENGTH_SHORT).show();
+        (new File(sessionRecordings.pop())).delete();
+        resetToolBar("Delete",
+                !(((LinearLayout) findViewById(R.id.deleteBar)).getVisibility() == View.VISIBLE));
+        //field.setText(sessionRecordings.lastElement());
+
     }
 
     // this should actually work now...
-    public boolean pomo = true;
     public void onClick_pocketMode (View v) {
         resetToolBar("Pocket",
-                !(((RelativeLayout) findViewById(R.id.pomoBar)).getVisibility() == View.VISIBLE));
+                !(((LinearLayout) findViewById(R.id.pomoBar)).getVisibility() == View.VISIBLE));
 
+    }
+    public void onClick_pomo (View v) {
         pomo = !pomo;
-        Toast.makeText(getApplicationContext(), "Pocket Mode is " + ((pomo)? "ON":"OFF") + "\nPocket Mode lets you record with the screen off." ,
-                Toast.LENGTH_LONG).show();
+        if (pomo){
+            ((ImageButton)findViewById(R.id.pocketMode)).setImageResource(R.drawable.pocket_large_phone);
+        } else {
+            ((ImageButton)findViewById(R.id.pocketMode)).setImageResource(R.drawable.pocket_large);
+        }
+        TextView field = (TextView) findViewById(R.id.pomoMessage);
+        field.setText("Pocket Mode is " + ((pomo)? "ON":"OFF") + "\n(you may "+ ((pomo)? "":"NOT ") +"record\n  with your screen off.)");
 
     }
     public boolean enforcePocketMode() {
         PowerManager pm = (PowerManager) getSystemService(this.POWER_SERVICE);
         boolean isScreenOn = pm.isScreenOn(); //don't hate...
-        return (!pomo && isScreenOn);
+        return !(pomo && isScreenOn);
     }
 
-    public void toggleToolbar(View v)
-    {
+    public void toggleToolbar(View v) {
+        ImageButton a = (ImageButton)findViewById(R.id.emphasisBar1Arrow);
         if (((LinearLayout) findViewById(R.id.toolbarContainer)).getVisibility() == View.GONE) {
-            ((ImageButton)v).setImageResource(R.drawable.chev_pink_up);
+            ((ImageButton)a).setImageResource(R.drawable.chev_pink_up);
             ((LinearLayout) findViewById(R.id.toolbarContainer)).setVisibility(View.VISIBLE);
         }
         else {
-            ((ImageButton)v).setImageResource(R.drawable.chev_pink_down);
+            ((ImageButton)a).setImageResource(R.drawable.chev_pink_down);
             ((LinearLayout) findViewById(R.id.toolbarContainer)).setVisibility(View.GONE);
         }
 
@@ -270,7 +336,7 @@ public class Recording extends AppCompatActivity  {
 
 
     // PLAYING STUFF***********************************************************
-
+/*
     public void playActions(View view) {
         if (!(new File(filename)).exists()) {
             System.out.println("no file to Play");
@@ -305,6 +371,7 @@ public class Recording extends AppCompatActivity  {
         }
         player.seekBck();
     }
+    */
 }
 
 
